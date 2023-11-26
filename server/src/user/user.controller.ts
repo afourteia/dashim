@@ -7,6 +7,7 @@ export class UserController {
 
   @Get()
   async getUsers() {
-    return this.userService.getUsers();
+    const someEmail = 'someEmail';
+    return this.userService.findUserByEmail(someEmail);
   }
 }
