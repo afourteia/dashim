@@ -6,8 +6,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async getUsers() {
-    const someEmail = 'someEmail';
-    return this.userService.findUserByEmail(someEmail);
+  async findAll() {
+    console.log('findAll from user.controller.ts');
+    return this.userService.findMany();
   }
 }
