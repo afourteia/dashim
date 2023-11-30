@@ -10,49 +10,46 @@ This is the client side of our full stack monorepo application. It is built usin
 - Vite: A build tool that aims to provide a faster and leaner development experience for modern web projects.
 - tRPC: A framework for building typesafe APIs, fully end-to-end typesafe APIs with the power of TypeScript.
 
-## Project setup
+# dashimClient (quasar-project)
 
-First, make sure to install all the dependencies by running:
+A Dalil Shafi application for auditing and managing healthcare expenses
 
-```
+## Install the dependencies
+
+```bash
+yarn
+# or
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Start the app in development mode (hot-code reloading, error reporting, etc.)
 
-To start the development server, run:
-
-```
-npm run dev
+```bash
+quasar dev
 ```
 
-### Compiles and minifies for production
+### Lint the files
 
-To build the application for production, run:
-
-```
-npm run build
-```
-
-### Lints and fixes files
-
-To lint and fix files, run:
-
-```
+```bash
+yarn lint
+# or
 npm run lint
 ```
 
-## Project Structure
+### Format the files
 
-- `src/components`: This directory contains all the Vue components used in the application.
-- `src/views`: This directory contains all the Vue views or pages used in the application.
-- `src/App.vue`: This is the main Vue component that is first rendered in the application.
-- `src/main.ts`: This is the entry point of the Vue application. It creates a Vue instance and mounts it to the DOM.
+```bash
+yarn format
+# or
+npm run format
+```
 
-## Environment Variables
+### Build the app for production
 
-To add environment variables, create a `.env` file in the root of the client directory. You can use the `.env.example` file as a reference.
+```bash
+quasar build
+```
 
-## Contributing
+### Customize the configuration
 
-When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
