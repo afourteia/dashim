@@ -4,7 +4,7 @@ export default {
   ignoredRouteFiles: ['**/.*', '**/*.test.{ts,tsx}'],
   tailwind: true,
   postcss: true,
-  // serverModuleFormat: "cjs", // from indie stack
+  serverModuleFormat: 'cjs', // from indie stack
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
