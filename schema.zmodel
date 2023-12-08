@@ -14,7 +14,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  passwordHash String
+  passwordHash String @omit
   notes    Note[]
   @@allow("all", true)
 }

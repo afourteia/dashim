@@ -16,7 +16,12 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const users = await User.getMany()
   const notes = await User.getNotesMany()
-  console.log(notes?.length > 0 ? notes : 'no notes')
+  console.log(
+    users?.length > 0 ? 'Users are: ' + JSON.stringify(users) : 'no users'
+  )
+  console.log(
+    notes?.length > 0 ? 'Notes are: ' + JSON.stringify(users) : 'no notes'
+  )
   return json({ users })
 }
 
