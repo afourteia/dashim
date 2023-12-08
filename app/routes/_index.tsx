@@ -1,5 +1,10 @@
-import type { MetaFunction } from '@remix-run/node'
-import { Form, Link } from '@remix-run/react'
+import {
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node'
+import { Form, Link, useLoaderData } from '@remix-run/react'
+import { getAllUsers } from '~/server/models/user.server.ts'
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,7 +13,13 @@ export const meta: MetaFunction = () => {
   ]
 }
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const users = await getAllUsers()
+  return json({ users })
+}
+
 export default function Index() {
+  const data = useLoaderData<typeof loader>()
   return (
     <div className='flex h-full min-h-screen flex-col'>
       <header className='flex items-center justify-between bg-slate-800 p-4 text-white'>
@@ -24,6 +35,17 @@ export default function Index() {
           </button>
         </Form>
       </header>
+      <main className='flex-1 flex flex-col justify-center items-center'>
+        {data.users.length === 0 ? (
+          <p className='p-4'>No users yet</p>
+        ) : (
+          <ol>
+            {data.users.map((user) => (
+              <li key={user.id}>{user.email}</li>
+            ))}
+          </ol>
+        )}
+      </main>
     </div>
   )
 }

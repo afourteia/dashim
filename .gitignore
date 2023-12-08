@@ -6,5 +6,7 @@ node_modules
 .env
 
 
-/prisma/data.db
-/prisma/data.db-journal
+/prisma/db.sqlite
+/prisma/DB.sqlite-journal
+
+.zenstack_repl_history

@@ -7,6 +7,8 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve ./build/index.js",
+    "setup": "zenstack generate prisma generate && prisma db push && prisma db seed",
+    "seed": "prisma db seed",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -58,8 +60,8 @@
     "start-server-and-test": "^2.0.1",
     "tailwindcss": "^3.3.6",
     "tailwindcss-animate": "^1.0.7",
-    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.6.2",
     "typescript": "^5.3.3",
     "zenstack": "1.4.0"
   },
@@ -67,6 +69,6 @@
     "node": ">=18.0.0"
   },
   "prisma": {
-    "seed": "ts-node -r tsconfig-paths/register prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   }
 }
