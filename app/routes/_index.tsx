@@ -4,7 +4,7 @@ import {
   type MetaFunction,
 } from '@remix-run/node'
 import { Form, Link, useLoaderData } from '@remix-run/react'
-import { getAllUsers } from '~/server/models/user.server.ts'
+import User from '~/server/models/user.server.ts'
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,7 +14,9 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const users = await getAllUsers()
+  const users = await User.getMany()
+  const notes = await User.getNotesMany()
+  console.log(notes?.length > 0 ? notes : 'no notes')
   return json({ users })
 }
 

@@ -12,6 +12,9 @@
     "target": "ES2022",
     "strict": true,
     "allowJs": true,
+    /* Experimental Options old decorators */
+    "experimentalDecorators": true,
+    // "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
