@@ -5,13 +5,19 @@ export function CustomSwitch() {
   console.log('classes', classes)
   return (
     <div>
-      <div className='bg-white text-opacity-95 text-right align-middle'>
+      <div className='bg-slate-500 text-opacity-95 text-left align-middle'>
         This line is styled with tailwind
       </div>
-      <Group justify='center' align='center' p='xl'>
+      <Group
+        className='bg-slate-100 text-red-900 '
+        justify='center'
+        align='center'
+        p='xl'
+      >
         <Switch
-          label='Custom Switch'
-          className='bg-slate-600 align-text-top'
+          label='default Switch'
+          // className='bg-slate-600 align-text-top'
+
           styles={{
             body: {
               display: 'flex',
@@ -21,11 +27,11 @@ export function CustomSwitch() {
             root: { borderBlockColor: 'yellow', color: 'red' },
             label: { color: 'green' },
             track: {
-              height: 10,
+              height: 5,
               overflow: 'visible',
               verticalAlign: 'middle',
             },
-            thumb: { width: 16, height: 16 },
+            thumb: { width: 30, height: 30, position: 'relative' },
           }}
           // color='green'
         />

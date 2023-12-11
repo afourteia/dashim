@@ -1,7 +1,7 @@
 import { Button } from '@mantine/core'
-import { CustomSwitch } from '~/components/CustomSwitch.tsx'
+// import { CustomSwitch } from '~/components/CustomSwitch.tsx'
 import MantineStyle from '~/components/MantineStyle.tsx'
-// import { DoubleNavbar } from '~/components/NavbarSearch.tsx'
+import { NavbarSearch } from '~/components/NavbarSearch.tsx'
 
 export default function Mantine() {
   return (
@@ -22,13 +22,14 @@ export default function Mantine() {
           should be styled via classNames
         </Button>
       </div> */}
-      <div>
+      {/* <div>
         <CustomSwitch />
-      </div>
-      <div>{/* <DoubleNavbar /> */}</div>
-      <div>
+      </div> */}
+      <NavbarSearch />
+
+      {/* <div>
         <MantineStyle />
-      </div>
+      </div> */}
     </div>
   )
 }

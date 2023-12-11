@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { LinksFunction } from '@remix-run/node'
 import { UnstyledButton, Tooltip, Title, rem } from '@mantine/core'
 import {
   IconHome2,
@@ -10,7 +11,10 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 // import { MantineLogo } from '@mantinex/mantine-logo'
-import classes from './NavbarSearch.module.css'
+
+// import classes from './NavbarSearch.module.css'
+
+// export const links: LinksFunction = () => [{ rel: 'stylesheet', href: classes }]
 
 const mainLinksMockdata = [
   { icon: IconHome2, label: 'Home' },
@@ -36,9 +40,10 @@ const linksMockdata = [
   'Wiki pages',
 ]
 
-export function DoubleNavbar() {
+export function NavbarSearch() {
   const [active, setActive] = useState('Releases')
   const [activeLink, setActiveLink] = useState('Settings')
+  console.log('classes', classes)
 
   const mainLinks = mainLinksMockdata.map((link) => (
     <Tooltip
@@ -75,6 +80,7 @@ export function DoubleNavbar() {
 
   return (
     <nav className={classes.navbar}>
+      navBar
       <div className={classes.wrapper}>
         <div className={classes.aside}>
           <div className={classes.logo}>

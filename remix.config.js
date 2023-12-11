@@ -7,8 +7,9 @@ export default {
   routes: async (defineRoutes) => {
     return flatRoutes('routes', defineRoutes)
   },
-  tailwind: true,
-  postcss: false,
+
+  // tailwind: true,
+  postcss: true,
   // serverModuleFormat: 'cjs', // from indie stack
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
