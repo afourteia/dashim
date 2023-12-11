@@ -22,7 +22,8 @@
       "@components/*": ["./app/components/*"],
       "@server/*": ["./app/server/*"],
       "@routes/*": ["./app/routes/*"],
-      "@prisma/*": ["./prisma/*"]
+      "@prisma/*": ["./prisma/*"],
+      "@mantine/core": ["./node_modules/@mantine/core/lib/index.d.ts"]
     },
     "allowImportingTsExtensions": true,
 

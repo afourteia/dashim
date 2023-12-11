@@ -1,4 +1,4 @@
-// import { cssBundleHref } from '@remix-run/css-bundle'
+import { cssBundleHref } from '@remix-run/css-bundle'
 import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
@@ -8,12 +8,19 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 
-import stylesheet from '~/tailwind.css'
+// Order seems to matter. If Mantine is imported after tailwind, the tailwind class passed with className is not applied.
+// import '@mantine/core/styles.css'
+// import './index.css'
+import mantineStylesheet from '@mantine/core/styles.css'
+
+import tailwindStylesheet from '~/tailwind.css'
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: stylesheet },
-  // ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
+  { rel: 'stylesheet', href: mantineStylesheet },
+  { rel: 'stylesheet', href: tailwindStylesheet },
+  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
 export default function App() {
@@ -24,12 +31,15 @@ export default function App() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <Meta />
         <Links />
+        <ColorSchemeScript defaultColorScheme='dark' />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <MantineProvider defaultColorScheme='dark'>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </MantineProvider>
       </body>
     </html>
   )

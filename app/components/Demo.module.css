@@ -1,0 +1,15 @@
+.box {
+  font-size: var(--mantine-font-size-xl);
+  text-align: center;
+  font-weight: 900;
+}
+
+.highlight {
+  padding: 0.1rem 0.7rem;
+  border-width: 4px;
+  border-color: red;
+  display: inline-block;
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-color-red-7);
+  color: var(--mantine-color-green-9);
+}

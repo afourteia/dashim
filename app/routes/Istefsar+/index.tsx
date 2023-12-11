@@ -1,7 +1,9 @@
+import SideMenu from '~/components/sideMenu.tsx'
+
 export default function Istefsar() {
   return (
     <div>
-      <h2>Istefsar</h2>
+      <SideMenu />
     </div>
   )
 }

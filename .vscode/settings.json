@@ -1,3 +1,17 @@
 {
-  "cSpell.words": ["Istefsar", "tailwindcss", "TRPC", "zenstack", "zenstackhq"]
+  "cSpell.words": [
+    "Istefsar",
+    "mantine",
+    "tailwindcss",
+    "TRPC",
+    "zenstack",
+    "zenstackhq"
+  ],
+  "cssVariables.lookupFiles": [
+    "**/*.css",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.less",
+    "node_modules/@mantine/core/esm/index.css"
+  ]
 }
