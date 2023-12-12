@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button } from './ui/button.tsx'
+import { Button } from './_primitive/button.tsx'
 // import { Collapsible, Button } from '@radix-ui/react'
 
 export default function SideMenu() {

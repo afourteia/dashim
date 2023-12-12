@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@components/ui/accordion.tsx'
+} from '~/components/_primitive/accordion'
 
 export default function AccordionDemo() {
   return (

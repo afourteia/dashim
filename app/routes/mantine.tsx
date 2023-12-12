@@ -1,6 +1,6 @@
-import { Button } from '@mantine/core'
+// import { Button } from '@mantine/core'
 // import { CustomSwitch } from '~/components/CustomSwitch.tsx'
-import MantineStyle from '~/components/MantineStyle.tsx'
+// import MantineStyle from '~/components/MantineStyle.tsx'
 import { NavbarSearch } from '~/components/NavbarSearch.tsx'
 
 export default function Mantine() {
