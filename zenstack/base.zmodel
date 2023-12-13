@@ -1,0 +1,43 @@
+import 'user'
+
+abstract model Base {
+    id String @id
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+
+    // author has full access
+    // @@allow('all', auth() != null && published)
+    @@allow('all', true && published)
+}
+
+abstract model activationStatus {
+    isActive Boolean @default(true)
+    deactivationReason String?
+}
+
+abstract model HumanProfile{
+    firstName String
+    secondName String?
+    thirdName String?
+    fourthName String?
+    lastName String
+    searchName String
+
+    birthDate DateTime
+    gender gender
+
+    nationality String?
+    nationalID String?
+
+    residence String?
+    address String?
+
+}
+
+enum gender {
+    male
+    female
+    NA
+}

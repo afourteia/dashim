@@ -1,0 +1,32 @@
+import 'base'
+
+
+model Institution extends Base, activationStatus {
+    name String
+    code String
+    description String?
+    cityHQ String?
+    address String?
+
+    members Subscriber[]
+
+}
+
+model Subscriber extends Base, HumanProfile, activationStatus {
+
+    
+    institution Institution @relation(fields: [institutionId], references: [id])
+    institutionId String
+
+    institutionCode String
+
+    familyMembers FamilyMember[]
+
+
+}
+
+model FamilyMember extends Base, HumanProfile, activationStatus {
+
+    subscriber Subscriber @relation(fields: [SubscriberId], references: [id])
+    SubscriberId String
+}

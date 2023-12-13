@@ -1,0 +1,13 @@
+import  'base'
+
+model User extends Base, activationStatus, HumanProfile {
+  email String @unique
+  passwordHash String @omit
+
+
+  phone String?
+  avatar String?
+  
+}
+
+

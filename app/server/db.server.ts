@@ -8,7 +8,9 @@ const prisma = singleton('prisma', () =>
     new PrismaClient({
       log: ['query', 'info', 'warn', 'error'],
       errorFormat: 'pretty',
-    })
+    }),
+    {},
+    { logPrismaQuery: true }
   )
 )
 prisma.$connect()

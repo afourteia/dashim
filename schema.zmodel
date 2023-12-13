@@ -1,3 +1,8 @@
+import  './zenstack/base'
+import './zenstack/user'
+import './zenstack/member'
+
+
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
@@ -7,27 +12,3 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  passwordHash String @omit
-  notes    Note[]
-  @@allow("all", true)
-}
-
-
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-}
