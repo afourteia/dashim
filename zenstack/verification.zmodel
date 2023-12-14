@@ -43,15 +43,19 @@ model Voice extends Base, ActivationStatus {
     @@unique([subscriberGroupId, id])
 }
 
-enum FingerType {
-    LEFTTHUMB
-    LEFTINDEX
-    LEFTMIDDLE
-    LEFTRING
-    LEFTLITTLE
-    RIGHTTHUMB
-    RIGHTINDEX
-    RIGHTMIDDLE
-    RIGHTRING
-    RIGHTLITTLE
+model FingerType extends Base, LangLocale{
+
 }
+
+// enum FingerType {
+//     LEFTTHUMB
+//     LEFTINDEX
+//     LEFTMIDDLE
+//     LEFTRING
+//     LEFTLITTLE
+//     RIGHTTHUMB
+//     RIGHTINDEX
+//     RIGHTMIDDLE
+//     RIGHTRING
+//     RIGHTLITTLE
+// }

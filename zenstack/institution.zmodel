@@ -70,23 +70,27 @@ model SubscriberGroup extends Base, HumanProfile, ActivationStatus {
 }
 
 
-enum Relationship {
-    SELF
-    FATHER
-    MOTHER
-    SON
-    DAUGHTER
-    BROTHER
-    SISTER
-    UNCLE
-    AUNT
-    GRANDFATHER
-    GRANDMOTHER
-    COUSIN
-    NEPHEW
-    NIECE
-    FRIEND
-    OTHER
+model Relationship extends Base, LangLocale{
+
 }
+
+// enum Relationship {
+//     SELF
+//     FATHER
+//     MOTHER
+//     SON
+//     DAUGHTER
+//     BROTHER
+//     SISTER
+//     UNCLE
+//     AUNT
+//     GRANDFATHER
+//     GRANDMOTHER
+//     COUSIN
+//     NEPHEW
+//     NIECE
+//     FRIEND
+//     OTHER
+// }
 
 

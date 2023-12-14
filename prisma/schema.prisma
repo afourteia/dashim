@@ -12,26 +12,426 @@ generator client {
     provider = "prisma-client-js"
 }
 
-/// @@allow('all', auth() != null && published)
-model User {
-    id String @id() @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    email String @unique()
-    /// @omit
-    passwordHash String
-    notes Note[]
+enum Gender {
+    MALE
+    FEMALE
+    NA
 }
 
-/// @@allow('all', auth() != null && published)
-model Note {
-    id String @id() @default(cuid())
+enum TenantType {
+    INSTITUTION
+    MEDICAL
+    GOVERNMENT
+    PRIVATE
+    NGO
+    PERSONAL
+    OTHER
+}
+
+enum Role {
+    ADMIN
+    MEMBER
+    GUEST
+}
+
+enum DeviceType {
+    IOS
+    ANDROID
+    WEB
+    OTHER
+}
+
+enum Relationship {
+    SELF
+    FATHER
+    MOTHER
+    SON
+    DAUGHTER
+    BROTHER
+    SISTER
+    UNCLE
+    AUNT
+    GRANDFATHER
+    GRANDMOTHER
+    COUSIN
+    NEPHEW
+    NIECE
+    FRIEND
+    OTHER
+}
+
+enum FingerType {
+    LEFTTHUMB
+    LEFTINDEX
+    LEFTMIDDLE
+    LEFTRING
+    LEFTLITTLE
+    RIGHTTHUMB
+    RIGHTINDEX
+    RIGHTMIDDLE
+    RIGHTRING
+    RIGHTLITTLE
+}
+
+/// @@allow('all', true && published)
+model User {
+    id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
     published Boolean @default(true)
-    title String
-    body String
-    user User @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    firstName String
+    secondName String?
+    thirdName String?
+    fourthName String?
+    lastName String
+    searchName String
+    birthDate DateTime
+    gender Gender
+    nationality String?
+    nationalID String?
+    residence String?
+    address String?
+    username String @unique()
+    /// @email
+    email String @unique()
+    isEmailVerificationActive Boolean @default(false)
+    phone String?
+    isPhoneVerified Boolean @default(false)
+    /// @omit
+    passwordHash String
+    DeviceToken DeviceToken[]
+    avatar String?
+    ownerOf Tenant[]
+    memberOf TenantMembers[]
+}
+
+/// @@allow('all', true && published)
+model TenantMembers {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    tenant Tenant @relation(fields: [tenantId], references: [id])
+    tenantId String
+    member User @relation(fields: [memberId], references: [id])
+    memberId String
+
+    @@index([tenantId, id])
+    @@unique([memberId, id])
+}
+
+/// @@allow('all', true && published)
+model Tenant {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String
+    type TenantType
+    description String?
+    logo String?
+    website String?
+    phone String?
+    email String?
+    address String?
+    city String?
+    country String?
+    assignedToInstitution Institution?
+    assignedToMedicalCenter MedicalCenter?
+    owner User @relation(fields: [ownerId], references: [id])
+    ownerId String
+    members TenantMembers[]
+}
+
+/// @@allow('all', true && published)
+model DeviceToken {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    token String
+    deviceType DeviceType
+    user User @relation(fields: [userId], references: [id])
     userId String
+
+    @@index([userId, token])
+    @@unique([userId, token])
+}
+
+/// @@allow('all', true && published)
+model Institution {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String
+    code String
+    legacyCode String?
+    description String?
+    cityHQ String?
+    address String?
+    phone String[] @unique()
+    /// @email
+    email String[] @unique()
+    /// @url
+    website String
+    /// @url
+    facebookLink String
+    /// @url
+    googleMapsLink String
+    /// @url
+    twitterLink String
+    /// @url
+    instagramLink String
+    latitude Float?
+    longitude Float?
+    managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
+    managingTenantId String @unique()
+    policies InsurancePolicy[]
+    members Subscriber[]
+}
+
+/// @@allow('all', true && published)
+model Subscriber {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    institution Institution @relation(fields: [institutionId], references: [id])
+    institutionId String
+    insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
+    insurancePolicyId String
+    institutionCode String
+    subscriberGroup SubscriberGroup[]
+
+    @@index([institutionId, id])
+    @@unique([institutionId, id])
+}
+
+/// @@allow('all', true && published)
+model SubscriberGroup {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    firstName String
+    secondName String?
+    thirdName String?
+    fourthName String?
+    lastName String
+    searchName String
+    birthDate DateTime
+    gender Gender
+    nationality String?
+    nationalID String?
+    residence String?
+    address String?
+    isActive Boolean @default(true)
+    deactivationReason String?
+    subscriber Subscriber @relation(fields: [subscriberId], references: [id])
+    subscriberId String
+    legacyCode String?
+    relationship Relationship
+    isFingerprintVerificationActive Boolean @default(false)
+    isIdCardVerificationActive Boolean @default(false)
+    isFaceVerificationActive Boolean @default(false)
+    isVoiceVerificationActive Boolean @default(false)
+    fingerprint Fingerprint[]
+    idCard IDCard[]
+    face Face[]
+    voice Voice[]
+
+    @@index([subscriberId, id])
+    @@unique([subscriberId, id])
+}
+
+/// @@allow('all', true && published)
+model Fingerprint {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    FingerType FingerType
+    fingerprintHash String @unique()
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+    @@index([id, FingerType])
+    @@unique([id, FingerType])
+}
+
+/// @@allow('all', true && published)
+model IDCard {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    cardHash String
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+}
+
+/// @@allow('all', true && published)
+model Face {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    faceHash String
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+}
+
+/// @@allow('all', true && published)
+model Voice {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    voiceHash String
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+}
+
+/// @@allow('all', true && published)
+model InsurancePolicy {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String @unique()
+    institution Institution @relation(fields: [institutionId], references: [id])
+    institutionId String
+    subscribers Subscriber[]
+    beneftiPackage BenefitPackage?
+}
+
+/// @@allow('all', true && published)
+model BenefitPackage {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String @unique()
+    insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
+    insurancePolicyId String @unique()
+}
+
+/// @@allow('all', true && published)
+model MedicalCenter {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String
+    code String
+    description String
+    cityHQ String
+    address String?
+    phone String[] @unique()
+    /// @email
+    email String[] @unique()
+    /// @url
+    website String
+    /// @url
+    facebookLink String
+    /// @url
+    googleMapsLink String
+    /// @url
+    twitterLink String
+    /// @url
+    instagramLink String
+    latitude Float?
+    longitude Float?
+    managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
+    managingTenantId String @unique()
+    services MedicalCenterService[]
+}
+
+/// @@allow('all', true && published)
+model MedicalCenterServiceTemplate {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String
+    dalilCode String
+    basePrice String
+    services MedicalCenterService[]
+}
+
+/// @@allow('all', true && published)
+model MedicalCenterService {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    name String
+    medicalCenterCode String
+    basePrice String
+    medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references: [id])
+    medicalCenterId String @unique()
+    template MedicalCenterServiceTemplate @relation(fields: [medicalCenterId], references: [id])
+
+    @@index([medicalCenterId, medicalCenterCode])
+    @@unique([medicalCenterId, medicalCenterCode])
+    @@index([medicalCenterId, medicalCenterCode])
+    @@unique([medicalCenterId, medicalCenterCode])
 }

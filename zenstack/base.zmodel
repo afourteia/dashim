@@ -36,8 +36,18 @@ abstract model HumanProfile{
 
 }
 
-enum Gender {
-    MALE
-    FEMALE
-    NA
+abstract model LangLocale{
+    name String
+    arabic String
+    english String
 }
+
+model Gender extends Base, LangLocale{
+
+}
+
+// enum Gender {
+//     MALE
+//     FEMALE
+//     NA
+// }

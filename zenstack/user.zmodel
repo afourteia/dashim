@@ -18,12 +18,23 @@ model User extends Base, ActivationStatus, HumanProfile {
 
   ownerOf Tenant[]
 
-  memberOf Tenant[] @relation("TenantMembers")
+  memberOf TenantMembers[]
   
-  @@index([memberOf, id])
-  @@unique([memberOf, id])
+
 }
 
+model TenantMembers extends Base, ActivationStatus {
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  tenantId String
+
+  member User @relation(fields: [memberId], references: [id])
+  memberId String
+
+  @@index([tenantId, id])
+  @@unique([memberId, id])
+
+}
 
 model Tenant extends Base, ActivationStatus {
   name String
@@ -45,7 +56,7 @@ model Tenant extends Base, ActivationStatus {
   ownerId String
 
   // needs review
-  members User[] @relation("TenantMembers")
+  members TenantMembers[]
 
 }
 
@@ -59,27 +70,38 @@ model DeviceToken extends Base, ActivationStatus {
   @@unique([userId, token])
 }
 
-enum TenantType {
-  INSTITUTION
-  MEDICAL
-  GOVERNMENT
-  PRIVATE
-  NGO
-  PERSONAL
-  OTHER
+model TenantType extends Base, LangLocale{
+
+}
+// enum TenantType {
+//   INSTITUTION
+//   MEDICAL
+//   GOVERNMENT
+//   PRIVATE
+//   NGO
+//   PERSONAL
+//   OTHER
+// }
+
+model Role extends Base, LangLocale{
+
 }
 
-enum Role {
-  ADMIN
-  MEMBER
-  GUEST
+// enum Role {
+//   ADMIN
+//   MEMBER
+//   GUEST
+// }
+
+model DeviceType extends Base, LangLocale{
+
 }
 
-enum DeviceType {
-  IOS
-  ANDROID
-  WEB
-  OTHER
-}
+// enum DeviceType {
+//   IOS
+//   ANDROID
+//   WEB
+//   OTHER
+// }
 
 
