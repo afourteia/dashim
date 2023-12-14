@@ -3,7 +3,7 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from '@remix-run/node'
-import { Form, Link, useLoaderData } from '@remix-run/react'
+// import { Form, Link, useLoaderData } from '@remix-run/react'
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle/ColorSchemeToggle'
 import { NavBar } from '~/components/NavBar/NavBar'
 import UIDirection from '~/components/UIDirection/UIDirection'
@@ -29,9 +29,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 
 export default function Index() {
-  const data = useLoaderData<typeof loader>()
+  // const data = useLoaderData<typeof loader>()
   return (
-    <div className='flex justify-start content-start h-[700px]'>
+    <div className='flex justify-start content-start h-screen'>
       <NavBar />
       <div>
         <ColorSchemeToggle />

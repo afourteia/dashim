@@ -12,7 +12,7 @@ abstract model Base {
     @@allow('all', true && published)
 }
 
-abstract model activationStatus {
+abstract model ActivationStatus {
     isActive Boolean @default(true)
     deactivationReason String?
 }
@@ -26,7 +26,7 @@ abstract model HumanProfile{
     searchName String
 
     birthDate DateTime
-    gender gender
+    gender Gender
 
     nationality String?
     nationalID String?
@@ -36,8 +36,8 @@ abstract model HumanProfile{
 
 }
 
-enum gender {
-    male
-    female
+enum Gender {
+    MALE
+    FEMALE
     NA
 }

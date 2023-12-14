@@ -1,32 +1,92 @@
 import 'base'
+import 'verification'
+import 'policy'
 
 
-model Institution extends Base, activationStatus {
+model Institution extends Base, ActivationStatus {
     name String
     code String
+    legacyCode String?
     description String?
     cityHQ String?
     address String?
+    phone String[] @unique
+    email String[] @unique @email
+    website String @url
+    facebookLink String @url
+    googleMapsLink String @url
+    twitterLink String @url
+    instagramLink String @url
 
+    latitude Float?
+    longitude Float?
+
+    managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
+    managingTenantId String @unique
+
+    policies InsurancePolicy[]
     members Subscriber[]
 
 }
 
-model Subscriber extends Base, HumanProfile, activationStatus {
+model Subscriber extends Base, ActivationStatus {
 
     
     institution Institution @relation(fields: [institutionId], references: [id])
     institutionId String
 
+    insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
+    insurancePolicyId String
+
     institutionCode String
 
-    familyMembers FamilyMember[]
+    subscriberGroup SubscriberGroup[]
+
+    @@index([institutionId, id])
+    @@unique([institutionId, id])
 
 
 }
 
-model FamilyMember extends Base, HumanProfile, activationStatus {
 
-    subscriber Subscriber @relation(fields: [SubscriberId], references: [id])
-    SubscriberId String
+model SubscriberGroup extends Base, HumanProfile, ActivationStatus {
+
+    subscriber Subscriber @relation(fields: [subscriberId], references: [id])
+    subscriberId String
+    legacyCode String?
+    relationship Relationship
+    isFingerprintVerificationActive Boolean @default(false)
+    isIdCardVerificationActive Boolean @default(false)
+    isFaceVerificationActive Boolean @default(false)
+    isVoiceVerificationActive Boolean @default(false)
+
+    fingerprint Fingerprint []
+    idCard IDCard[]
+    face Face[]
+    voice Voice[]
+
+    @@index([subscriberId, id])
+    @@unique([subscriberId, id])
 }
+
+
+enum Relationship {
+    SELF
+    FATHER
+    MOTHER
+    SON
+    DAUGHTER
+    BROTHER
+    SISTER
+    UNCLE
+    AUNT
+    GRANDFATHER
+    GRANDMOTHER
+    COUSIN
+    NEPHEW
+    NIECE
+    FRIEND
+    OTHER
+}
+
+

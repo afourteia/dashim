@@ -1,0 +1,57 @@
+import 'base'
+import 'institution'
+
+model Fingerprint extends Base, ActivationStatus {
+    FingerType FingerType
+    fingerprintHash String @unique
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+
+    @@index([id,FingerType])
+    @@unique([id,FingerType])
+
+}    
+
+model IDCard extends Base, ActivationStatus {
+    cardHash String
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+
+}
+
+model Face extends Base, ActivationStatus {
+    faceHash String
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+}
+
+model Voice extends Base, ActivationStatus {
+    voiceHash String
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+
+    @@index([subscriberGroupId, id])
+    @@unique([subscriberGroupId, id])
+}
+
+enum FingerType {
+    LEFTTHUMB
+    LEFTINDEX
+    LEFTMIDDLE
+    LEFTRING
+    LEFTLITTLE
+    RIGHTTHUMB
+    RIGHTINDEX
+    RIGHTMIDDLE
+    RIGHTRING
+    RIGHTLITTLE
+}

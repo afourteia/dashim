@@ -1,0 +1,21 @@
+import 'base'
+
+
+model InsurancePolicy extends Base, ActivationStatus {
+    name String @unique
+    institution Institution @relation(fields: [institutionId], references: [id])
+    institutionId String
+
+    subscribers Subscriber[]
+    
+    beneftiPackage BenefitPackage?
+
+
+} 
+
+
+model BenefitPackage extends Base, ActivationStatus {
+    name String @unique
+    insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
+    insurancePolicyId String @unique
+}

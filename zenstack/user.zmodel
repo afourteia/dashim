@@ -1,13 +1,85 @@
 import  'base'
+import 'institution'
+import 'medicalCenter'
 
-model User extends Base, activationStatus, HumanProfile {
-  email String @unique
+
+model User extends Base, ActivationStatus, HumanProfile {
+  username String @unique
+  email String @email @unique
+  isEmailVerificationActive Boolean @default(false)
+  phone String?
+  isPhoneVerified Boolean @default(false)
   passwordHash String @omit
 
+  DeviceToken DeviceToken[]
 
-  phone String?
-  avatar String?
   
+  avatar String?
+
+  ownerOf Tenant[]
+
+  memberOf Tenant[] @relation("TenantMembers")
+  
+  @@index([memberOf, id])
+  @@unique([memberOf, id])
+}
+
+
+model Tenant extends Base, ActivationStatus {
+  name String
+  type TenantType
+  description String?
+  logo String?
+  website String?
+  phone String?
+  email String?
+  address String?
+  city String?
+  country String?
+
+  assignedToInstitution Institution?
+  assignedToMedicalCenter MedicalCenter?
+
+  
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId String
+
+  // needs review
+  members User[] @relation("TenantMembers")
+
+}
+
+model DeviceToken extends Base, ActivationStatus {
+  token String
+  deviceType DeviceType
+  user User @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([userId, token])
+  @@unique([userId, token])
+}
+
+enum TenantType {
+  INSTITUTION
+  MEDICAL
+  GOVERNMENT
+  PRIVATE
+  NGO
+  PERSONAL
+  OTHER
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  GUEST
+}
+
+enum DeviceType {
+  IOS
+  ANDROID
+  WEB
+  OTHER
 }
 
 

@@ -1,8 +1,9 @@
-import  './zenstack/base'
+import './zenstack/base'
+import './zenstack/institution'
+import './zenstack/medicalCenter'
+import './zenstack/policy'
 import './zenstack/user'
-import './zenstack/member'
-
-
+import './zenstack/verification'
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")

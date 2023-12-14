@@ -1,0 +1,52 @@
+import 'base'
+import 'user'
+
+
+model MedicalCenter extends Base, ActivationStatus{
+    name String
+    code String
+    description String
+    cityHQ String
+    address String?
+    phone String[] @unique
+    email String[] @unique @email
+    website String @url
+    facebookLink String @url
+    googleMapsLink String @url
+    twitterLink String @url
+    instagramLink String @url
+
+    latitude Float?
+    longitude Float?
+
+    managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
+    managingTenantId String @unique
+
+    services MedicalCenterService[]
+    
+}
+
+model MedicalCenterServiceTemplate extends Base, ActivationStatus {
+    name String
+    dalilCode String
+    basePrice String
+
+    services MedicalCenterService[]
+}
+
+model MedicalCenterService extends Base, ActivationStatus {
+    name String
+    medicalCenterCode String
+    basePrice String
+
+    medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references: [id])
+    medicalCenterId String @unique
+
+    @@index([medicalCenterId, medicalCenterCode])
+    @@unique([medicalCenterId, medicalCenterCode])
+
+
+    template MedicalCenterServiceTemplate @relation(fields: [medicalCenterId], references: [id])
+    @@index([medicalCenterId, medicalCenterCode])
+    @@unique([medicalCenterId, medicalCenterCode])
+}
