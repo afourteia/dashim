@@ -4,7 +4,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     url = env("DATABASE_URL")
 }
 
@@ -12,65 +12,23 @@ generator client {
     provider = "prisma-client-js"
 }
 
-enum Gender {
-    MALE
-    FEMALE
-    NA
+generator erd {
+    provider = "prisma-erd-generator"
+    theme = "forest"
 }
 
-enum TenantType {
-    INSTITUTION
-    MEDICAL
-    GOVERNMENT
-    PRIVATE
-    NGO
-    PERSONAL
-    OTHER
-}
-
-enum Role {
-    ADMIN
-    MEMBER
-    GUEST
-}
-
-enum DeviceType {
-    IOS
-    ANDROID
-    WEB
-    OTHER
-}
-
-enum Relationship {
-    SELF
-    FATHER
-    MOTHER
-    SON
-    DAUGHTER
-    BROTHER
-    SISTER
-    UNCLE
-    AUNT
-    GRANDFATHER
-    GRANDMOTHER
-    COUSIN
-    NEPHEW
-    NIECE
-    FRIEND
-    OTHER
-}
-
-enum FingerType {
-    LEFTTHUMB
-    LEFTINDEX
-    LEFTMIDDLE
-    LEFTRING
-    LEFTLITTLE
-    RIGHTTHUMB
-    RIGHTINDEX
-    RIGHTMIDDLE
-    RIGHTRING
-    RIGHTLITTLE
+/// @@allow('all', true && published)
+model Gender {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    arabic String?
+    english String?
+    name String @unique()
+    user User[]
+    subscriberGroup SubscriberGroup[]
 }
 
 /// @@allow('all', true && published)
@@ -89,7 +47,8 @@ model User {
     lastName String
     searchName String
     birthDate DateTime
-    gender Gender
+    gender Gender? @relation(fields: [genderId], references: [id])
+    genderId String?
     nationality String?
     nationalID String?
     residence String?
@@ -136,7 +95,8 @@ model Tenant {
     isActive Boolean @default(true)
     deactivationReason String?
     name String
-    type TenantType
+    type TenantType @relation(fields: [typeId], references: [id])
+    typeId String
     description String?
     logo String?
     website String?
@@ -161,13 +121,52 @@ model DeviceToken {
     softDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
-    token String
-    deviceType DeviceType
+    name String
+    deviceType DeviceType @relation(fields: [deviceTypeId], references: [id])
+    deviceTypeId String
     user User @relation(fields: [userId], references: [id])
     userId String
 
-    @@index([userId, token])
-    @@unique([userId, token])
+    @@index([userId, name])
+    @@unique([userId, name])
+}
+
+/// @@allow('all', true && published)
+model TenantType {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    arabic String?
+    english String?
+    name String @unique()
+    tenant Tenant[]
+}
+
+/// @@allow('all', true && published)
+model Role {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    arabic String?
+    english String?
+    name String @unique()
+}
+
+/// @@allow('all', true && published)
+model DeviceType {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    arabic String?
+    english String?
+    name String @unique()
+    deviceToken DeviceToken[]
 }
 
 /// @@allow('all', true && published)
@@ -186,7 +185,6 @@ model Institution {
     cityHQ String?
     address String?
     phone String[] @unique()
-    /// @email
     email String[] @unique()
     /// @url
     website String
@@ -240,7 +238,8 @@ model SubscriberGroup {
     lastName String
     searchName String
     birthDate DateTime
-    gender Gender
+    gender Gender? @relation(fields: [genderId], references: [id])
+    genderId String?
     nationality String?
     nationalID String?
     residence String?
@@ -250,7 +249,8 @@ model SubscriberGroup {
     subscriber Subscriber @relation(fields: [subscriberId], references: [id])
     subscriberId String
     legacyCode String?
-    relationship Relationship
+    relationship Relationship @relation(fields: [relationshipId], references: [id])
+    relationshipId String
     isFingerprintVerificationActive Boolean @default(false)
     isIdCardVerificationActive Boolean @default(false)
     isFaceVerificationActive Boolean @default(false)
@@ -265,6 +265,18 @@ model SubscriberGroup {
 }
 
 /// @@allow('all', true && published)
+model Relationship {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    arabic String?
+    english String?
+    subscriberGroup SubscriberGroup[]
+}
+
+/// @@allow('all', true && published)
 model Fingerprint {
     id String @id()
     createdAt DateTime @default(now())
@@ -273,15 +285,16 @@ model Fingerprint {
     softDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
-    FingerType FingerType
+    fingerType FingerType @relation(fields: [fingerTypeId], references: [id])
+    fingerTypeId String
     fingerprintHash String @unique()
     subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
     subscriberGroupId String
 
     @@index([subscriberGroupId, id])
     @@unique([subscriberGroupId, id])
-    @@index([id, FingerType])
-    @@unique([id, FingerType])
+    @@index([id, fingerTypeId])
+    @@unique([id, fingerTypeId])
 }
 
 /// @@allow('all', true && published)
@@ -336,6 +349,19 @@ model Voice {
 }
 
 /// @@allow('all', true && published)
+model FingerType {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    published Boolean @default(true)
+    softDeleted Boolean @default(false)
+    arabic String?
+    english String?
+    name String @unique()
+    fingerType Fingerprint[]
+}
+
+/// @@allow('all', true && published)
 model InsurancePolicy {
     id String @id()
     createdAt DateTime @default(now())
@@ -380,7 +406,6 @@ model MedicalCenter {
     cityHQ String
     address String?
     phone String[] @unique()
-    /// @email
     email String[] @unique()
     /// @url
     website String
@@ -428,10 +453,11 @@ model MedicalCenterService {
     basePrice String
     medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references: [id])
     medicalCenterId String @unique()
-    template MedicalCenterServiceTemplate @relation(fields: [medicalCenterId], references: [id])
+    template MedicalCenterServiceTemplate @relation(fields: [templateId], references: [id])
+    templateId String
 
     @@index([medicalCenterId, medicalCenterCode])
     @@unique([medicalCenterId, medicalCenterCode])
-    @@index([medicalCenterId, medicalCenterCode])
-    @@unique([medicalCenterId, medicalCenterCode])
+    @@index([templateId, medicalCenterId, medicalCenterCode])
+    @@unique([templateId, medicalCenterId, medicalCenterCode])
 }

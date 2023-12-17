@@ -9,7 +9,7 @@ model MedicalCenter extends Base, ActivationStatus{
     cityHQ String
     address String?
     phone String[] @unique
-    email String[] @unique @email
+    email String[] @unique
     website String @url
     facebookLink String @url
     googleMapsLink String @url
@@ -46,7 +46,8 @@ model MedicalCenterService extends Base, ActivationStatus {
     @@unique([medicalCenterId, medicalCenterCode])
 
 
-    template MedicalCenterServiceTemplate @relation(fields: [medicalCenterId], references: [id])
-    @@index([medicalCenterId, medicalCenterCode])
-    @@unique([medicalCenterId, medicalCenterCode])
+    template MedicalCenterServiceTemplate @relation(fields: [templateId], references: [id])
+    templateId String 
+    @@index([templateId,medicalCenterId,  medicalCenterCode])
+    @@unique([templateId,medicalCenterId,  medicalCenterCode])
 }

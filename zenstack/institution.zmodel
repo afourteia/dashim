@@ -11,7 +11,7 @@ model Institution extends Base, ActivationStatus {
     cityHQ String?
     address String?
     phone String[] @unique
-    email String[] @unique @email
+    email String[] @unique
     website String @url
     facebookLink String @url
     googleMapsLink String @url
@@ -54,7 +54,10 @@ model SubscriberGroup extends Base, HumanProfile, ActivationStatus {
     subscriber Subscriber @relation(fields: [subscriberId], references: [id])
     subscriberId String
     legacyCode String?
-    relationship Relationship
+
+    relationship Relationship @relation(fields: [relationshipId], references: [id])
+    relationshipId String
+    
     isFingerprintVerificationActive Boolean @default(false)
     isIdCardVerificationActive Boolean @default(false)
     isFaceVerificationActive Boolean @default(false)
@@ -71,7 +74,7 @@ model SubscriberGroup extends Base, HumanProfile, ActivationStatus {
 
 
 model Relationship extends Base, LangLocale{
-
+    subscriberGroup SubscriberGroup[]
 }
 
 // enum Relationship {

@@ -26,7 +26,9 @@ abstract model HumanProfile{
     searchName String
 
     birthDate DateTime
-    gender Gender
+    
+    gender Gender? @relation(fields: [genderId], references: [id])
+    genderId String?
 
     nationality String?
     nationalID String?
@@ -37,13 +39,14 @@ abstract model HumanProfile{
 }
 
 abstract model LangLocale{
-    name String
-    arabic String
-    english String
+    arabic String?
+    english String?
 }
 
 model Gender extends Base, LangLocale{
-
+    name String @unique
+    user User[]
+    subscriberGroup SubscriberGroup[]
 }
 
 // enum Gender {

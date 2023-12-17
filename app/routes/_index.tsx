@@ -3,6 +3,7 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
 // import { Form, Link, useLoaderData } from '@remix-run/react'
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle/ColorSchemeToggle'
 import { NavBar } from '~/components/NavBar/NavBar'
@@ -17,8 +18,8 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const users = await User.getMany()
-  const notes = await User.getNotesMany()
+  const users = await User.getMany({}, { bypassMiddleware: true })
+  const notes = ''
   console.log(
     users?.length > 0 ? 'Users are: ' + JSON.stringify(users) : 'no users'
   )
@@ -29,13 +30,21 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 
 export default function Index() {
-  // const data = useLoaderData<typeof loader>()
+  const data = useLoaderData<typeof loader>()
   return (
     <div className='flex justify-start content-start h-screen'>
       <NavBar />
       <div>
         <ColorSchemeToggle />
         <UIDirection />
+        {data.users &&
+          data.users.map((user) => (
+            <div key={user.id}>
+              <h2>{user.firstName}</h2>
+              <p>{user.email}</p>
+              {/* Add more fields as needed */}
+            </div>
+          ))}
       </div>
     </div>
   )

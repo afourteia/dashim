@@ -4,9 +4,11 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "clean": "rimraf ./build && rimraf ./public/build && rimraf ./node_modules/.cache",
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve ./build/index.js",
+    "dbMigrate": "zenstack generate prisma generate && prisma db push",
     "setup": "zenstack generate prisma generate && prisma db push && prisma db seed",
     "seed": "prisma db seed",
     "typecheck": "tsc"
@@ -14,6 +16,7 @@
   "dependencies": {
     "@mantine/core": "^7.3.1",
     "@mantine/hooks": "^7.3.1",
+    "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "^5.7.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.0.3",
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@mermaid-js/mermaid-cli": "^10.6.1",
     "@remix-run/dev": "^2.3.1",
     "@remix-run/eslint-config": "^2.3.1",
     "@types/bcryptjs": "^2.4.5",
@@ -63,7 +67,9 @@
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "prisma": "^5.7.0",
+    "prisma-erd-generator": "^1.11.2",
     "remix-flat-routes": "^0.6.4",
+    "rimraf": "^5.0.5",
     "start-server-and-test": "^2.0.1",
     "tailwindcss": "^3.3.6",
     "tailwindcss-animate": "^1.0.7",

@@ -38,7 +38,8 @@ model TenantMembers extends Base, ActivationStatus {
 
 model Tenant extends Base, ActivationStatus {
   name String
-  type TenantType
+  type TenantType @relation(fields: [typeId], references: [id])
+  typeId String
   description String?
   logo String?
   website String?
@@ -61,16 +62,22 @@ model Tenant extends Base, ActivationStatus {
 }
 
 model DeviceToken extends Base, ActivationStatus {
-  token String
-  deviceType DeviceType
+  name String
+
+  deviceType DeviceType @relation(fields: [deviceTypeId], references: [id])
+  deviceTypeId String
+
   user User @relation(fields: [userId], references: [id])
   userId String
 
-  @@index([userId, token])
-  @@unique([userId, token])
+  @@index([userId, name])
+  @@unique([userId, name])
 }
 
 model TenantType extends Base, LangLocale{
+  name String @unique
+
+  tenant Tenant[]
 
 }
 // enum TenantType {
@@ -84,6 +91,7 @@ model TenantType extends Base, LangLocale{
 // }
 
 model Role extends Base, LangLocale{
+  name String @unique
 
 }
 
@@ -94,6 +102,10 @@ model Role extends Base, LangLocale{
 // }
 
 model DeviceType extends Base, LangLocale{
+  name String @unique
+  deviceToken DeviceToken[]
+
+
 
 }
 

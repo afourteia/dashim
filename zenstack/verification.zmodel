@@ -2,7 +2,10 @@ import 'base'
 import 'institution'
 
 model Fingerprint extends Base, ActivationStatus {
-    FingerType FingerType
+
+    fingerType FingerType @relation(fields: [fingerTypeId], references: [id])
+    fingerTypeId String
+
     fingerprintHash String @unique
     subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
     subscriberGroupId String
@@ -10,8 +13,8 @@ model Fingerprint extends Base, ActivationStatus {
     @@index([subscriberGroupId, id])
     @@unique([subscriberGroupId, id])
 
-    @@index([id,FingerType])
-    @@unique([id,FingerType])
+    @@index([id,fingerTypeId])
+    @@unique([id,fingerTypeId])
 
 }    
 
@@ -44,7 +47,8 @@ model Voice extends Base, ActivationStatus {
 }
 
 model FingerType extends Base, LangLocale{
-
+    name String @unique
+    fingerType Fingerprint[]
 }
 
 // enum FingerType {

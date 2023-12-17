@@ -1,11 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import User from '@server/models/user.server'
+import { create } from 'domain'
+import { createId } from '@paralleldrive/cuid2'
 
 const prisma = new PrismaClient()
 
 async function seed() {
   const email = 'a@a.com'
-  const email2 = 'b@b.com'
 
   // cleanup the existing database
   await prisma.user.deleteMany().catch(() => {
@@ -15,35 +17,38 @@ async function seed() {
   const hashedPassword = await bcrypt.hash('12345678', 10)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const user = await prisma.user.create({
+  const user = await User.createOne({
     data: {
       email,
       passwordHash: hashedPassword,
+      username: 'aaaa',
+      birthDate: new Date(),
+      avatar: 'sdfasdfasd',
+      firstName: 'aaaa',
+      lastName: 'aaaa',
+      id: createId(),
+      searchName: 'aaaa',
+      DeviceToken: {
+        create: {
+          name: 'fds',
+          id: createId(),
+          deviceType: {
+            create: {
+              name: 'ios',
+              id: createId(),
+            },
+          },
+        },
+      },
     },
   })
 
-  await prisma.user.create({
-    data: {
-      email: email2,
-      passwordHash: hashedPassword,
-    },
-  })
-
-  await prisma.note.create({
-    data: {
-      title: 'My first note',
-      body: 'Hello, world!',
-      userId: user.id,
-    },
-  })
-
-  await prisma.note.create({
-    data: {
-      title: 'My second note',
-      body: 'Hello, world!',
-      userId: user.id,
-    },
-  })
+  // await User.createOne({
+  //   data: {
+  //     email: email2,
+  //     passwordHash: hashedPassword,
+  //   },
+  // })
 
   console.log(`Database has been seeded. 🌱`)
 }
