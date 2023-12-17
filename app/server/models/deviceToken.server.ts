@@ -3,46 +3,58 @@ import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
 const DeviceToken = {
-  getMany: middleware(async function getMany(params?: Prisma.DeviceTokenFindManyArgs) {
+  getMany: middleware(async function getMany(
+    params?: Prisma.DeviceTokenFindManyArgs,
+    context?: { bypassMiddleware: boolean }
+  ) {
     return await prisma.deviceToken.findMany(params)
   }),
 
-  getOne: middleware(async function getOne(params: Prisma.DeviceTokenFindUniqueArgs) {
+  getOne: middleware(async function getOne(
+    params: Prisma.DeviceTokenFindUniqueArgs,
+    context?: { bypassMiddleware: boolean }
+  ) {
     return await prisma.deviceToken.findUnique(params)
   }),
 
   createMany: middleware(async function createMany(
-    params: Prisma.DeviceTokenCreateManyArgs
+    params: Prisma.DeviceTokenCreateManyArgs,
+    context?: { bypassMiddleware: boolean }
   ) {
     return await prisma.deviceToken.createMany(params)
   }),
 
   createOne: middleware(async function createOne(
-    params: Prisma.DeviceTokenCreateArgs
+    params: Prisma.DeviceTokenCreateArgs,
+    context?: { bypassMiddleware: boolean }
   ) {
     return await prisma.deviceToken.create(params)
   }),
 
   updateMany: middleware(async function updateMany(
-    params: Prisma.DeviceTokenUpdateManyArgs
+    params: Prisma.DeviceTokenUpdateManyArgs,
+    context?: { bypassMiddleware: boolean }
   ) {
     return await prisma.deviceToken.updateMany(params)
   }),
 
   updateOne: middleware(async function updateOne(
-    params: Prisma.DeviceTokenUpdateArgs
+    params: Prisma.DeviceTokenUpdateArgs,
+    context?: { bypassMiddleware: boolean }
   ) {
     return await prisma.deviceToken.update(params)
   }),
 
   deleteMany: middleware(async function deleteMany(
-    params: Prisma.DeviceTokenDeleteManyArgs
+    params: Prisma.DeviceTokenDeleteManyArgs,
+    context?: { bypassMiddleware: boolean }
   ) {
     return await prisma.deviceToken.deleteMany(params)
   }),
 
   deleteOne: middleware(async function deleteOne(
-    params: Prisma.DeviceTokenDeleteArgs
+    params: Prisma.DeviceTokenDeleteArgs,
+    context?: { bypassMiddleware: boolean }
   ) {
     return await prisma.deviceToken.delete(params)
   }),

@@ -9,14 +9,30 @@ Order of calls are
 4. originalFunction
 */
 
+export function HOF(OG: (...args: any[]) => any, defaultParamHOF: number = 10) {
+  return function (paramHOF: number = defaultParamHOF, ...args: any[]) {
+    console.log(`HOF parameter: ${paramHOF}`)
+    // HOF can interpret or modify the arguments here
+    const modifiedArgs = args.map((arg) => arg + paramHOF)
+    return OG(...modifiedArgs)
+  }
+}
+
 export function middleware<T extends (...args: any[]) => any>(
-  originalMethod: T,
-  context: { bypassMiddleware?: boolean } = {}
-): T {
-  const { bypassMiddleware = false } = context
-  console.log('entering middleware')
-  console.log('Bypassing middleware', bypassMiddleware)
-  return originalMethod
+  originalMethod: T
+): (context?: {
+  bypassMiddleware?: boolean
+}) => (...args: Parameters<T>) => ReturnType<T> {
+  return function (context = { bypassMiddleware: true }) {
+    return function (...args: Parameters<T>): ReturnType<T> {
+      const { bypassMiddleware = true } = context
+      if (bypassMiddleware) {
+        return originalMethod(...args)
+      }
+      // Apply middleware logic here
+      return originalMethod(...args)
+    }
+  }
   return log(addCUID2(originalMethod))
 }
 

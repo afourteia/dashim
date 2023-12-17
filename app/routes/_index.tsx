@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const users = await User.getMany({}, { bypassMiddleware: true })
+  const users = await User.getMany({})
   const notes = ''
   console.log(
     users?.length > 0 ? 'Users are: ' + JSON.stringify(users) : 'no users'
@@ -37,6 +37,7 @@ export default function Index() {
       <div>
         <ColorSchemeToggle />
         <UIDirection />
+        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         {data.users &&
           data.users.map((user) => (
             <div key={user.id}>
