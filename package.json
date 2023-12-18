@@ -8,9 +8,9 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix-serve ./build/index.js",
-    "dbMigrate": "zenstack generate prisma generate && prisma db push && genCRUD",
+    "dbMigrate": "zenstack generate prisma generate && prisma db push && npm run genCRUD",
     "genCRUD": "tsx prisma/generateCRUD.cts",
-    "setup": "zenstack generate prisma generate && prisma db push && genCRUD && prisma db seed",
+    "setup": "zenstack generate prisma generate && prisma db push && npm run genCRUD && prisma db seed",
     "seed": "prisma db seed",
     "typecheck": "tsc"
   },
