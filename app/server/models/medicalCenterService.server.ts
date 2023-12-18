@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.MedicalCenterServiceFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.MedicalCenterServiceFindManyArgs) {
   return await prisma.medicalCenterService.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.MedicalCenterServiceFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.MedicalCenterServiceFindUniqueArgs) {
   return await prisma.medicalCenterService.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.MedicalCenterServiceCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.MedicalCenterServiceCreateManyArgs) {
   return await prisma.medicalCenterService.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.MedicalCenterServiceCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.MedicalCenterServiceCreateArgs) {
   return await prisma.medicalCenterService.create(params)
 }
 
-async function updateMany(
-  params: Prisma.MedicalCenterServiceUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.MedicalCenterServiceUpdateManyArgs) {
   return await prisma.medicalCenterService.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.MedicalCenterServiceUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.MedicalCenterServiceUpdateArgs) {
   return await prisma.medicalCenterService.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.MedicalCenterServiceDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.MedicalCenterServiceDeleteManyArgs) {
   return await prisma.medicalCenterService.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.MedicalCenterServiceDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.MedicalCenterServiceDeleteArgs) {
   return await prisma.medicalCenterService.delete(params)
 }
 

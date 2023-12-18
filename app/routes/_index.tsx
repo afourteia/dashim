@@ -10,7 +10,7 @@ import { NavBar } from '~/components/NavBar/NavBar'
 import UIDirection from '~/components/UIDirection/UIDirection'
 import User from '@server/models/user.server.ts'
 
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 
 export const meta: MetaFunction = () => {
   return [

@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.TenantTypeFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.TenantTypeFindManyArgs) {
   return await prisma.tenantType.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.TenantTypeFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.TenantTypeFindUniqueArgs) {
   return await prisma.tenantType.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.TenantTypeCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.TenantTypeCreateManyArgs) {
   return await prisma.tenantType.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.TenantTypeCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.TenantTypeCreateArgs) {
   return await prisma.tenantType.create(params)
 }
 
-async function updateMany(
-  params: Prisma.TenantTypeUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.TenantTypeUpdateManyArgs) {
   return await prisma.tenantType.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.TenantTypeUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.TenantTypeUpdateArgs) {
   return await prisma.tenantType.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.TenantTypeDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.TenantTypeDeleteManyArgs) {
   return await prisma.tenantType.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.TenantTypeDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.TenantTypeDeleteArgs) {
   return await prisma.tenantType.delete(params)
 }
 

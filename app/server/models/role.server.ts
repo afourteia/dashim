@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.RoleFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.RoleFindManyArgs) {
   return await prisma.role.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.RoleFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.RoleFindUniqueArgs) {
   return await prisma.role.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.RoleCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.RoleCreateManyArgs) {
   return await prisma.role.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.RoleCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.RoleCreateArgs) {
   return await prisma.role.create(params)
 }
 
-async function updateMany(
-  params: Prisma.RoleUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.RoleUpdateManyArgs) {
   return await prisma.role.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.RoleUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.RoleUpdateArgs) {
   return await prisma.role.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.RoleDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.RoleDeleteManyArgs) {
   return await prisma.role.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.RoleDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.RoleDeleteArgs) {
   return await prisma.role.delete(params)
 }
 

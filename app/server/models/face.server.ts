@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.FaceFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.FaceFindManyArgs) {
   return await prisma.face.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.FaceFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.FaceFindUniqueArgs) {
   return await prisma.face.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.FaceCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.FaceCreateManyArgs) {
   return await prisma.face.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.FaceCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.FaceCreateArgs) {
   return await prisma.face.create(params)
 }
 
-async function updateMany(
-  params: Prisma.FaceUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.FaceUpdateManyArgs) {
   return await prisma.face.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.FaceUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.FaceUpdateArgs) {
   return await prisma.face.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.FaceDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.FaceDeleteManyArgs) {
   return await prisma.face.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.FaceDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.FaceDeleteArgs) {
   return await prisma.face.delete(params)
 }
 

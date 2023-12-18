@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { enhance } from '@zenstackhq/runtime'
-import { singleton } from '@server/singleton.server.ts'
+import { singleton } from '~/server/util/singleton.server'
 import { init, isCuid } from '@paralleldrive/cuid2'
 
 // The init function returns a custom createId function with the specified

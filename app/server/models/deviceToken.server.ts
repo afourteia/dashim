@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.DeviceTokenFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.DeviceTokenFindManyArgs) {
   return await prisma.deviceToken.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.DeviceTokenFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.DeviceTokenFindUniqueArgs) {
   return await prisma.deviceToken.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.DeviceTokenCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.DeviceTokenCreateManyArgs) {
   return await prisma.deviceToken.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.DeviceTokenCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.DeviceTokenCreateArgs) {
   return await prisma.deviceToken.create(params)
 }
 
-async function updateMany(
-  params: Prisma.DeviceTokenUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.DeviceTokenUpdateManyArgs) {
   return await prisma.deviceToken.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.DeviceTokenUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.DeviceTokenUpdateArgs) {
   return await prisma.deviceToken.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.DeviceTokenDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.DeviceTokenDeleteManyArgs) {
   return await prisma.deviceToken.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.DeviceTokenDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.DeviceTokenDeleteArgs) {
   return await prisma.deviceToken.delete(params)
 }
 

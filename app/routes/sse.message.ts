@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { eventStream } from 'remix-utils/sse/server'
 // import { EventEmitter } from 'events'
-import { globalEmitter } from '~/server/emitter.server.ts'
+import { globalEmitter } from '~/server/util/emitter.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   console.log('new connection message')

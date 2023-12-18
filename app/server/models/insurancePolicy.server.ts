@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.InsurancePolicyFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.InsurancePolicyFindManyArgs) {
   return await prisma.insurancePolicy.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.InsurancePolicyFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.InsurancePolicyFindUniqueArgs) {
   return await prisma.insurancePolicy.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.InsurancePolicyCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.InsurancePolicyCreateManyArgs) {
   return await prisma.insurancePolicy.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.InsurancePolicyCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.InsurancePolicyCreateArgs) {
   return await prisma.insurancePolicy.create(params)
 }
 
-async function updateMany(
-  params: Prisma.InsurancePolicyUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.InsurancePolicyUpdateManyArgs) {
   return await prisma.insurancePolicy.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.InsurancePolicyUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.InsurancePolicyUpdateArgs) {
   return await prisma.insurancePolicy.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.InsurancePolicyDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.InsurancePolicyDeleteManyArgs) {
   return await prisma.insurancePolicy.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.InsurancePolicyDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.InsurancePolicyDeleteArgs) {
   return await prisma.insurancePolicy.delete(params)
 }
 

@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.VoiceFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.VoiceFindManyArgs) {
   return await prisma.voice.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.VoiceFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.VoiceFindUniqueArgs) {
   return await prisma.voice.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.VoiceCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.VoiceCreateManyArgs) {
   return await prisma.voice.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.VoiceCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.VoiceCreateArgs) {
   return await prisma.voice.create(params)
 }
 
-async function updateMany(
-  params: Prisma.VoiceUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.VoiceUpdateManyArgs) {
   return await prisma.voice.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.VoiceUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.VoiceUpdateArgs) {
   return await prisma.voice.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.VoiceDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.VoiceDeleteManyArgs) {
   return await prisma.voice.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.VoiceDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.VoiceDeleteArgs) {
   return await prisma.voice.delete(params)
 }
 

@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.BenefitPackageFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.BenefitPackageFindManyArgs) {
   return await prisma.benefitPackage.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.BenefitPackageFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.BenefitPackageFindUniqueArgs) {
   return await prisma.benefitPackage.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.BenefitPackageCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.BenefitPackageCreateManyArgs) {
   return await prisma.benefitPackage.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.BenefitPackageCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.BenefitPackageCreateArgs) {
   return await prisma.benefitPackage.create(params)
 }
 
-async function updateMany(
-  params: Prisma.BenefitPackageUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.BenefitPackageUpdateManyArgs) {
   return await prisma.benefitPackage.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.BenefitPackageUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.BenefitPackageUpdateArgs) {
   return await prisma.benefitPackage.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.BenefitPackageDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.BenefitPackageDeleteManyArgs) {
   return await prisma.benefitPackage.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.BenefitPackageDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.BenefitPackageDeleteArgs) {
   return await prisma.benefitPackage.delete(params)
 }
 

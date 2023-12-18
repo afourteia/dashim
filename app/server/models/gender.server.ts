@@ -1,60 +1,36 @@
-import { prisma } from '@server/db.server.ts'
+import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-async function getMany(
-  params?: Prisma.GenderFindManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getMany(params?: Prisma.GenderFindManyArgs) {
   return await prisma.gender.findMany(params)
 }
 
-async function getOne(
-  params: Prisma.GenderFindUniqueArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function getOne(params: Prisma.GenderFindUniqueArgs) {
   return await prisma.gender.findUnique(params)
 }
 
-async function createMany(
-  params: Prisma.GenderCreateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createMany(params: Prisma.GenderCreateManyArgs) {
   return await prisma.gender.createMany(params)
 }
 
-async function createOne(
-  params: Prisma.GenderCreateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function createOne(params: Prisma.GenderCreateArgs) {
   return await prisma.gender.create(params)
 }
 
-async function updateMany(
-  params: Prisma.GenderUpdateManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateMany(params: Prisma.GenderUpdateManyArgs) {
   return await prisma.gender.updateMany(params)
 }
 
-async function updateOne(
-  params: Prisma.GenderUpdateArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function updateOne(params: Prisma.GenderUpdateArgs) {
   return await prisma.gender.update(params)
 }
 
-async function deleteMany(
-  params: Prisma.GenderDeleteManyArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteMany(params: Prisma.GenderDeleteManyArgs) {
   return await prisma.gender.deleteMany(params)
 }
 
-async function deleteOne(
-  params: Prisma.GenderDeleteArgs,
-  context?: { bypassMiddleware: boolean }
-) {
+async function deleteOne(params: Prisma.GenderDeleteArgs) {
   return await prisma.gender.delete(params)
 }
 
