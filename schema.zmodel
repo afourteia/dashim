@@ -6,7 +6,8 @@ import './zenstack/user'
 import './zenstack/verification'
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator client {

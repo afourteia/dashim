@@ -6,6 +6,7 @@
 datasource db {
     provider = "postgresql"
     url = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
 }
 
 generator client {
@@ -61,7 +62,7 @@ model User {
     isPhoneVerified Boolean @default(false)
     /// @omit
     passwordHash String
-    DeviceToken DeviceToken[]
+    deviceToken DeviceToken[]
     avatar String?
     ownerOf Tenant[]
     memberOf TenantMembers[]

@@ -11,7 +11,7 @@ model User extends Base, ActivationStatus, HumanProfile {
   isPhoneVerified Boolean @default(false)
   passwordHash String @omit
 
-  DeviceToken DeviceToken[]
+  deviceToken DeviceToken[]
 
   
   avatar String?

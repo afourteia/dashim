@@ -1,5 +1,3 @@
-import { createId } from '@paralleldrive/cuid2'
-
 /*
 const myFunction = HOF1(HOF2(HOF3(originalFunction)));
 Order of calls are
@@ -9,48 +7,57 @@ Order of calls are
 4. originalFunction
 */
 
-export function HOF(OG: (...args: any[]) => any, defaultParamHOF: number = 10) {
-  return function (paramHOF: number = defaultParamHOF, ...args: any[]) {
-    console.log(`HOF parameter: ${paramHOF}`)
-    // HOF can interpret or modify the arguments here
-    const modifiedArgs = args.map((arg) => arg + paramHOF)
-    return OG(...modifiedArgs)
-  }
-}
-
-export function middleware<T extends (...args: any[]) => any>(
-  originalMethod: T
-): (context?: {
+export type MiddlewareContext = {
   bypassMiddleware?: boolean
-}) => (...args: Parameters<T>) => ReturnType<T> {
-  return function (context = { bypassMiddleware: true }) {
-    return function (...args: Parameters<T>): ReturnType<T> {
-      const { bypassMiddleware = true } = context
-      if (bypassMiddleware) {
-        return originalMethod(...args)
-      }
-      // Apply middleware logic here
-      return originalMethod(...args)
-    }
-  }
-  return log(addCUID2(originalMethod))
+  bypassCUID?: boolean
 }
 
-export function addCUID2<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  return async function (...args: Parameters<T>) {
-    console.log(`CUID2: Entering ${originalMethod.name}`)
-    // Check if data argument exists and if it has an id property
-    const data = (args as any[]).find((arg) => typeof arg === 'object')
-    if (data && !data.id) {
-      console.log('CUID2: Adding cuid2 to data')
-      data.id = createId() // Generate a cuid2 if id doesn't exist
+export function middleware<T extends (...args: any) => any>(
+  originalMethod: T,
+  defaultContext: MiddlewareContext = {
+    bypassMiddleware: false,
+    bypassCUID: false,
+  }
+) {
+  return async function (
+    args: Parameters<T>[0] = {},
+    context: MiddlewareContext = {}
+  ) {
+    console.log(`Middleware: Entering ${originalMethod.name}`)
+    console.log('originalMethod name', originalMethod.name)
+    context = { ...defaultContext, ...context }
+    console.log('context is: ', context)
+    if (context.bypassMiddleware) {
+      console.log('bypassMiddleware is true')
+      return await originalMethod(args)
+    } else {
+      console.log('bypassMiddleware is false')
+      const newMethod = addCUID2(originalMethod)
+      return await newMethod(args, context)
     }
-    const result = await originalMethod.apply(this, args)
+  }
+}
+
+export function addCUID2<T extends (...args: any) => any>(
+  originalMethod: T,
+  defaultContext: MiddlewareContext = {
+    bypassMiddleware: false,
+    bypassCUID: false,
+  }
+) {
+  return async function (
+    args: Parameters<T>[0] = {},
+    context: MiddlewareContext = {}
+  ) {
+    console.log(`CUID2: Entering ${originalMethod.name}`)
+    console.log('originalMethod name', originalMethod.name)
+    console.log('args is: ', args)
+    console.log('args.DeviceToken is: ', args.data?.DeviceToken)
+
     console.log(`CUID2: Exiting ${originalMethod.name}`)
-    return result
-  } as any as T
+    return null
+    return await originalMethod(args)
+  }
 }
 
 export function log<T extends (...args: Parameters<T>) => any>(

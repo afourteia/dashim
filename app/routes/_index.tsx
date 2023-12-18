@@ -8,7 +8,9 @@ import { useLoaderData } from '@remix-run/react'
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle/ColorSchemeToggle'
 import { NavBar } from '~/components/NavBar/NavBar'
 import UIDirection from '~/components/UIDirection/UIDirection'
-import User from '~/server/models/user.server.ts'
+import User from '@server/models/user.server.ts'
+
+import { prisma } from '@server/db.server.ts'
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,14 +20,8 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const users = await User.getMany({})
-  const notes = ''
-  console.log(
-    users?.length > 0 ? 'Users are: ' + JSON.stringify(users) : 'no users'
-  )
-  console.log(
-    notes?.length > 0 ? 'Notes are: ' + JSON.stringify(users) : 'no notes'
-  )
+  const users = await User.getMany()
+  // const users = await getManyUsers({ orderBy: { id: 'desc' } })
   return json({ users })
 }
 
@@ -39,7 +35,7 @@ export default function Index() {
         <UIDirection />
         aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         {data.users &&
-          data.users.map((user) => (
+          data.users.map((user: any) => (
             <div key={user.id}>
               <h2>{user.firstName}</h2>
               <p>{user.email}</p>
