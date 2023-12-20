@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { DeviceType as DeviceTypeType } from '@prisma/client'
+
 async function getMany(params?: Prisma.DeviceTypeFindManyArgs) {
   return await prisma.deviceType.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.DeviceTypeDeleteArgs) {
   return await prisma.deviceType.delete(params)
 }
 
-const DeviceType = {
+export const DeviceType = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const DeviceType = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default DeviceType

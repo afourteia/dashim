@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Subscriber as SubscriberType } from '@prisma/client'
+
 async function getMany(params?: Prisma.SubscriberFindManyArgs) {
   return await prisma.subscriber.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.SubscriberDeleteArgs) {
   return await prisma.subscriber.delete(params)
 }
 
-const Subscriber = {
+export const Subscriber = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Subscriber = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Subscriber

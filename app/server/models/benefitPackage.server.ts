@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { BenefitPackage as BenefitPackageType } from '@prisma/client'
+
 async function getMany(params?: Prisma.BenefitPackageFindManyArgs) {
   return await prisma.benefitPackage.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.BenefitPackageDeleteArgs) {
   return await prisma.benefitPackage.delete(params)
 }
 
-const BenefitPackage = {
+export const BenefitPackage = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const BenefitPackage = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default BenefitPackage

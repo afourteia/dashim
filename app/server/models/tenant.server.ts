@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Tenant as TenantType } from '@prisma/client'
+
 async function getMany(params?: Prisma.TenantFindManyArgs) {
   return await prisma.tenant.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.TenantDeleteArgs) {
   return await prisma.tenant.delete(params)
 }
 
-const Tenant = {
+export const Tenant = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Tenant = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Tenant

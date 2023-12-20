@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { FingerType as FingerTypeType } from '@prisma/client'
+
 async function getMany(params?: Prisma.FingerTypeFindManyArgs) {
   return await prisma.fingerType.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.FingerTypeDeleteArgs) {
   return await prisma.fingerType.delete(params)
 }
 
-const FingerType = {
+export const FingerType = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const FingerType = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default FingerType

@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { MedicalCenterServiceTemplate as MedicalCenterServiceTemplateType } from '@prisma/client'
+
 async function getMany(params?: Prisma.MedicalCenterServiceTemplateFindManyArgs) {
   return await prisma.medicalCenterServiceTemplate.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.MedicalCenterServiceTemplateDeleteArgs) 
   return await prisma.medicalCenterServiceTemplate.delete(params)
 }
 
-const MedicalCenterServiceTemplate = {
+export const MedicalCenterServiceTemplate = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const MedicalCenterServiceTemplate = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default MedicalCenterServiceTemplate

@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Role as RoleType } from '@prisma/client'
+
 async function getMany(params?: Prisma.RoleFindManyArgs) {
   return await prisma.role.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.RoleDeleteArgs) {
   return await prisma.role.delete(params)
 }
 
-const Role = {
+export const Role = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Role = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Role

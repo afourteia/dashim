@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { User as UserType } from '@prisma/client'
+
 async function getMany(params?: Prisma.UserFindManyArgs) {
   return await prisma.user.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.UserDeleteArgs) {
   return await prisma.user.delete(params)
 }
 
-const User = {
+export const User = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const User = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default User

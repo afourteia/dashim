@@ -18,13 +18,13 @@ generator erd {
     theme = "forest"
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Gender {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
     name String @unique()
@@ -32,13 +32,13 @@ model Gender {
     subscriberGroup SubscriberGroup[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model User {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     firstName String
@@ -68,13 +68,13 @@ model User {
     memberOf TenantMembers[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model TenantMembers {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     tenant Tenant @relation(fields: [tenantId], references: [id])
@@ -86,13 +86,13 @@ model TenantMembers {
     @@unique([memberId, id])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Tenant {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String
@@ -113,13 +113,13 @@ model Tenant {
     members TenantMembers[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model DeviceToken {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String
@@ -132,51 +132,51 @@ model DeviceToken {
     @@unique([userId, name])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model TenantType {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
     name String @unique()
     tenant Tenant[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Role {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
     name String @unique()
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model DeviceType {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
     name String @unique()
     deviceToken DeviceToken[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Institution {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String
@@ -199,39 +199,39 @@ model Institution {
     instagramLink String
     latitude Float?
     longitude Float?
+    institutionCode String @unique()
     managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
     managingTenantId String @unique()
     policies InsurancePolicy[]
     members Subscriber[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Subscriber {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     institution Institution @relation(fields: [institutionId], references: [id])
     institutionId String
     insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
     insurancePolicyId String
-    institutionCode String
     subscriberGroup SubscriberGroup[]
 
     @@index([institutionId, id])
     @@unique([institutionId, id])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model SubscriberGroup {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     firstName String
     secondName String?
     thirdName String?
@@ -265,25 +265,25 @@ model SubscriberGroup {
     @@unique([subscriberId, id])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Relationship {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
     subscriberGroup SubscriberGroup[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Fingerprint {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     fingerType FingerType @relation(fields: [fingerTypeId], references: [id])
@@ -298,13 +298,13 @@ model Fingerprint {
     @@unique([id, fingerTypeId])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model IDCard {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     cardHash String
@@ -315,13 +315,13 @@ model IDCard {
     @@unique([subscriberGroupId, id])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Face {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     faceHash String
@@ -332,13 +332,13 @@ model Face {
     @@unique([subscriberGroupId, id])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model Voice {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     voiceHash String
@@ -349,26 +349,26 @@ model Voice {
     @@unique([subscriberGroupId, id])
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model FingerType {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
     name String @unique()
     fingerType Fingerprint[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model InsurancePolicy {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String @unique()
@@ -378,13 +378,13 @@ model InsurancePolicy {
     beneftiPackage BenefitPackage?
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model BenefitPackage {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String @unique()
@@ -392,13 +392,13 @@ model BenefitPackage {
     insurancePolicyId String @unique()
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model MedicalCenter {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String
@@ -425,13 +425,13 @@ model MedicalCenter {
     services MedicalCenterService[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model MedicalCenterServiceTemplate {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String
@@ -440,13 +440,13 @@ model MedicalCenterServiceTemplate {
     services MedicalCenterService[]
 }
 
-/// @@allow('all', true && published)
+/// @@allow('all', true && isPublished)
 model MedicalCenterService {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
-    published Boolean @default(true)
-    softDeleted Boolean @default(false)
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
     isActive Boolean @default(true)
     deactivationReason String?
     name String

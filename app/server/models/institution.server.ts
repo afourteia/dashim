@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Institution as InstitutionType } from '@prisma/client'
+
 async function getMany(params?: Prisma.InstitutionFindManyArgs) {
   return await prisma.institution.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.InstitutionDeleteArgs) {
   return await prisma.institution.delete(params)
 }
 
-const Institution = {
+export const Institution = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Institution = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Institution

@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Gender as GenderType } from '@prisma/client'
+
 async function getMany(params?: Prisma.GenderFindManyArgs) {
   return await prisma.gender.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.GenderDeleteArgs) {
   return await prisma.gender.delete(params)
 }
 
-const Gender = {
+export const Gender = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Gender = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Gender

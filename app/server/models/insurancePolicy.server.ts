@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { InsurancePolicy as InsurancePolicyType } from '@prisma/client'
+
 async function getMany(params?: Prisma.InsurancePolicyFindManyArgs) {
   return await prisma.insurancePolicy.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.InsurancePolicyDeleteArgs) {
   return await prisma.insurancePolicy.delete(params)
 }
 
-const InsurancePolicy = {
+export const InsurancePolicy = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const InsurancePolicy = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default InsurancePolicy

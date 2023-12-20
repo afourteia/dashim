@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { DeviceToken as DeviceTokenType } from '@prisma/client'
+
 async function getMany(params?: Prisma.DeviceTokenFindManyArgs) {
   return await prisma.deviceToken.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.DeviceTokenDeleteArgs) {
   return await prisma.deviceToken.delete(params)
 }
 
-const DeviceToken = {
+export const DeviceToken = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const DeviceToken = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default DeviceToken

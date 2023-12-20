@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Voice as VoiceType } from '@prisma/client'
+
 async function getMany(params?: Prisma.VoiceFindManyArgs) {
   return await prisma.voice.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.VoiceDeleteArgs) {
   return await prisma.voice.delete(params)
 }
 
-const Voice = {
+export const Voice = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Voice = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Voice

@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "clsx",
     "Istefsar",
     "mantine",
     "paralleldrive",
@@ -14,5 +15,7 @@
     "**/*.sass",
     "**/*.less",
     "node_modules/@mantine/core/esm/index.css"
-  ]
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "prompt",
+  "tailwindCSS.experimental.classRegex": ["className=\"([^\"\\n]*)\""]
 }

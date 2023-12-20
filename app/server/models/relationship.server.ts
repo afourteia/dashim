@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Relationship as RelationshipType } from '@prisma/client'
+
 async function getMany(params?: Prisma.RelationshipFindManyArgs) {
   return await prisma.relationship.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.RelationshipDeleteArgs) {
   return await prisma.relationship.delete(params)
 }
 
-const Relationship = {
+export const Relationship = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Relationship = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Relationship

@@ -14,15 +14,18 @@ export type MiddlewareContext = {
 
 export function middleware<T extends (...args: any) => any>(
   originalMethod: T,
+  request?: Request,
   defaultContext: MiddlewareContext = {
     bypassMiddleware: false,
     bypassCUID: false,
   }
 ) {
   return async function (
+    request: Request,
     args: Parameters<T>[0] = {},
     context: MiddlewareContext = {}
   ) {
+    console.log('request', request)
     console.log(`Middleware: Entering ${originalMethod.name}`)
     console.log('originalMethod name', originalMethod.name)
     context = { ...defaultContext, ...context }
@@ -32,13 +35,13 @@ export function middleware<T extends (...args: any) => any>(
       return await originalMethod(args)
     } else {
       console.log('bypassMiddleware is false')
-      const newMethod = addCUID2(originalMethod)
+      const newMethod = await addCUID2(originalMethod)
       return await newMethod(args, context)
     }
   }
 }
 
-export function addCUID2<T extends (...args: any) => any>(
+export async function addCUID2<T extends (...args: any) => any>(
   originalMethod: T,
   defaultContext: MiddlewareContext = {
     bypassMiddleware: false,
@@ -60,9 +63,9 @@ export function addCUID2<T extends (...args: any) => any>(
   }
 }
 
-export function log<T extends (...args: Parameters<T>) => any>(
+export async function log<T extends (...args: Parameters<T>) => any>(
   originalMethod: T
-): T {
+) {
   return async function (...args: Parameters<T>) {
     console.log(`LOG: Entering ${originalMethod.name}`)
     const result = await originalMethod(...args)
@@ -71,9 +74,9 @@ export function log<T extends (...args: Parameters<T>) => any>(
   } as any as T as any as T
 }
 
-export function auth<T extends (...args: Parameters<T>) => any>(
+export async function auth<T extends (...args: Parameters<T>) => any>(
   originalMethod: T
-): T {
+) {
   return async function (...args: Parameters<T>) {
     console.log(`AUTH: Entering ${originalMethod.name}`)
     const result = await originalMethod.apply(this, args)
@@ -82,9 +85,9 @@ export function auth<T extends (...args: Parameters<T>) => any>(
   } as any as T
 }
 
-export function validate<T extends (...args: Parameters<T>) => any>(
+export async function validate<T extends (...args: Parameters<T>) => any>(
   originalMethod: T
-): T {
+) {
   return async function (...args: Parameters<T>) {
     console.log(`VALIDATE: Entering ${originalMethod.name}`)
     const result = await originalMethod.apply(this, args)
@@ -93,9 +96,9 @@ export function validate<T extends (...args: Parameters<T>) => any>(
   } as any as T
 }
 
-export function errorHandler<T extends (...args: Parameters<T>) => any>(
+export async function errorHandler<T extends (...args: Parameters<T>) => any>(
   originalMethod: T
-): T {
+) {
   return async function (...args: Parameters<T>) {
     try {
       return await originalMethod.apply(this, args)
@@ -106,9 +109,9 @@ export function errorHandler<T extends (...args: Parameters<T>) => any>(
   } as any as T
 }
 
-export function rateLimiter<T extends (...args: Parameters<T>) => any>(
+export async function rateLimiter<T extends (...args: Parameters<T>) => any>(
   originalMethod: T
-): T {
+) {
   // Implement rate limiting logic here
   return async function (...args: Parameters<T>) {
     return await originalMethod.apply(this, args)

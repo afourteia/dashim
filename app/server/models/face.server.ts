@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Face as FaceType } from '@prisma/client'
+
 async function getMany(params?: Prisma.FaceFindManyArgs) {
   return await prisma.face.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.FaceDeleteArgs) {
   return await prisma.face.delete(params)
 }
 
-const Face = {
+export const Face = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Face = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Face

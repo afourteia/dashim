@@ -20,6 +20,8 @@ model Institution extends Base, ActivationStatus {
 
     latitude Float?
     longitude Float?
+    
+    institutionCode String @unique
 
     managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
     managingTenantId String @unique
@@ -38,7 +40,7 @@ model Subscriber extends Base, ActivationStatus {
     insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
     insurancePolicyId String
 
-    institutionCode String
+    
 
     subscriberGroup SubscriberGroup[]
 

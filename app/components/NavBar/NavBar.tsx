@@ -43,9 +43,6 @@ const mockdata = [
   { icon: IconUser, label: 'Account' },
   { icon: IconFingerprint, label: 'Security' },
   { icon: IconSettings, label: 'Settings' },
-  { icon: IconSettings, label: 'Settings' },
-  { icon: IconSettings, label: 'Settings' },
-  { icon: IconSettings, label: 'Settings' },
 ]
 
 export function NavBar() {

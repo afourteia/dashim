@@ -2,6 +2,8 @@ import { prisma } from '~/server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
+export type { Fingerprint as FingerprintType } from '@prisma/client'
+
 async function getMany(params?: Prisma.FingerprintFindManyArgs) {
   return await prisma.fingerprint.findMany(params)
 }
@@ -34,7 +36,7 @@ async function deleteOne(params: Prisma.FingerprintDeleteArgs) {
   return await prisma.fingerprint.delete(params)
 }
 
-const Fingerprint = {
+export const Fingerprint = {
   getMany: middleware(getMany),
   getOne: middleware(getOne),
   createMany: middleware(createMany),
@@ -44,5 +46,3 @@ const Fingerprint = {
   deleteMany: middleware(deleteMany),
   deleteOne: middleware(deleteOne),
 }
-
-export default Fingerprint
