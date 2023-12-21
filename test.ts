@@ -54,6 +54,8 @@ const ADD = {
   newFunction1: HOF(add2, { c: 'custom1', d: 40 }),
 }
 
+const newFunction2 = HOF(add)
+
 // Call the new function
 async function run() {
   console.log('Outputs NF: ', await ADD.newFunction({ a: 5, b: 15 }))
@@ -67,18 +69,23 @@ async function run() {
   )
   console.log('Outputs NF: ', await ADD.newFunction({ a: 5, b: 15 }, { d: 10 }))
 
-  console.log('Outputs NF2: ', await ADD.newFunction1({ a: 5, b: 15 }))
+  console.log('Outputs NF1: ', await ADD.newFunction1({ a: 5, b: 15 }))
   console.log(
-    'Outputs NF2: ',
+    'Outputs NF1: ',
     await ADD.newFunction1({ a: 5, b: 15 }, { c: 'custom', d: 20 })
   )
   console.log(
-    'Outputs NF2: ',
+    'Outputs NF1: ',
     await ADD.newFunction1({ a: 5, b: 15 }, { c: `stringhere` })
   )
   console.log(
-    'Outputs NF2: ',
+    'Outputs NF1: ',
     await ADD.newFunction1({ a: 5, b: 15 }, { d: 10 })
+  )
+  console.log('Outputs NF2: ', await newFunction2({ a: 5, b: 15 }, { d: 10 }))
+  console.log(
+    'Outputs NF2: ',
+    await newFunction2({ a: 5, b: 15 }, { c: 'custom', d: 20 })
   )
 }
 

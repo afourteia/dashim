@@ -17,56 +17,57 @@ const createId = init({
 })
 
 // Hard-code a unique key, so we can look up the client when this module gets re-imported
-const prisma = singleton('prisma', () =>
-  enhance(
-    new PrismaClient({
-      log: ['query', 'info', 'warn', 'error'],
-      errorFormat: 'pretty',
-    }).$extends({
-      // model: {
-      //   $allModels: {
-      //     async getTableName<T>(this: T) {
-      //       const context = Prisma.getExtensionContext(this) as any
-      //       return (prisma as any)._runtimeDataModel.models[context.name].dbName
-      //     },
-      //   },
-      // },
-      query: {
-        $allModels: {
-          async create({ model, operation, args, query }) {
-            // check if id exists and is valid cuid
+const unGuardedPrisma = singleton('prismaOG', () =>
+  new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+    errorFormat: 'pretty',
+  }).$extends({
+    // model: {
+    //   $allModels: {
+    //     async getTableName<T>(this: T) {
+    //       const context = Prisma.getExtensionContext(this) as any
+    //       return (prisma as any)._runtimeDataModel.models[context.name].dbName
+    //     },
+    //   },
+    // },
+    query: {
+      $allModels: {
+        async create({ model, operation, args, query }) {
+          // check if id exists and is valid cuid
+          if (args.data.id != null && isCuid(args.data.id)) {
+            console.log('CUID2: Adding cuid2 to data')
+            args.data.id = createId()
+          }
+
+          return query(args)
+        },
+        async createMany({ model, operation, args, query }) {
+          if (Array.isArray(args.data)) {
+            args.data.map((entry) => {
+              if (entry.id != null && isCuid(entry.id)) {
+                console.log('CUID2: Adding cuid2 to array data')
+                entry.id = createId()
+              }
+              return entry
+            })
+          } else {
             if (args.data.id != null && isCuid(args.data.id)) {
               console.log('CUID2: Adding cuid2 to data')
               args.data.id = createId()
             }
+          }
 
-            return query(args)
-          },
-          async createMany({ model, operation, args, query }) {
-            if (Array.isArray(args.data)) {
-              args.data.map((entry) => {
-                if (entry.id != null && isCuid(entry.id)) {
-                  console.log('CUID2: Adding cuid2 to array data')
-                  entry.id = createId()
-                }
-                return entry
-              })
-            } else {
-              if (args.data.id != null && isCuid(args.data.id)) {
-                console.log('CUID2: Adding cuid2 to data')
-                args.data.id = createId()
-              }
-            }
-
-            return query(args)
-          },
+          return query(args)
         },
       },
-    }),
-    {},
-    { logPrismaQuery: true }
-  )
+    },
+  })
 )
+
+const prisma = singleton('prisma', () =>
+  enhance(unGuardedPrisma, {}, { logPrismaQuery: true })
+)
+
 prisma.$connect()
 
-export { prisma }
+export { prisma, unGuardedPrisma }

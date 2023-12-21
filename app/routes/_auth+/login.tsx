@@ -14,23 +14,37 @@ import {
 } from '@remix-run/react'
 import { getSession, commitSession } from '@server/util/session.server'
 import { useRef } from 'react'
+import { procedure } from '~/server/controller/_procedure.server'
+import { _verifyLogin } from '~/server/controller/accounts.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  console.log("loader('login')")
-  const session = await getSession(request.headers.get('Cookie'))
+  // console.log("loader('login')")
+  // const session = await getSession(request.headers.get('Cookie'))
 
-  console.log('session id', session.id)
-  console.log('session data', session.data)
+  // console.log('session id', session.id)
+  // console.log('session data', session.data)
 
-  if (session.has('userId')) {
-    // Redirect to the home page if they are already signed in.
-    console.log('session already has userId', session.get('userId'))
-    return redirect('/')
-  }
+  // if (session.has('userId')) {
+  //   // Redirect to the home page if they are already signed in.
+  //   console.log('session already has userId', session.get('userId'))
+  //   return redirect('/')
+  // }
 
-  const data = { error: session.get('error') }
+  // const data = { error: session.get('error') }
 
-  return json(data)
+  const user11 = await _verifyLogin({ email: 'dsf@fds.com', password: '1234' })
+  const user22 = await procedure.verifyLogin(request, {
+    email: 'dsf@fds.com',
+    password: '1234',
+  })
+
+  return null
+
+  return json(data, {
+    headers: {
+      'Set-Cookie': await commitSession(session),
+    },
+  })
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -40,7 +54,8 @@ export async function action({ request }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'))
   console.log('session', session)
 
-  const userId = 'a1'
+  // const user = User.getOne(request, {where : {username : formData.get('email')}})
+  const userId = 'A2'
 
   if (userId == null) {
     await session.flash('error', 'Invalid email or password')

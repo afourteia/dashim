@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { prisma } from '../util/db.server'
 import { Prisma } from '@prisma/client'
 
-const addSubscribersData = z.array(
+const addSubscribersDataSchema = z.array(
   z.object({
     id: z.string().cuid2(),
     institutionId: z.string().cuid2(),
@@ -26,13 +26,13 @@ const addSubscribersData = z.array(
   })
 )
 
-type addSubscribersData = z.infer<typeof addSubscribersData>
+type addSubscribersData = z.infer<typeof addSubscribersDataSchema>
 
-async function add_subscribers(data: addSubscribersData) {
+export async function _addSubscribers(data: addSubscribersData) {
   const MAX_RETRIES = 5
   let retries = 0
 
-  const validUser = addSubscribersData.parse(data)
+  const validUser = addSubscribersDataSchema.parse(data)
 
   while (true) {
     try {

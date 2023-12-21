@@ -34,7 +34,7 @@ const { getSession, commitSession, destroySession } =
 
       sameSite: 'lax',
       secrets: [secret],
-      maxAge: 60 * 60 * 1 * 1, // 1 hour
+      maxAge: 10 * 1 * 1 * 1, // 1 hour
     },
   })
 

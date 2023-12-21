@@ -71,7 +71,7 @@ export async function log<T extends (...args: Parameters<T>) => any>(
     const result = await originalMethod(...args)
     console.log(`LOG: Exiting ${originalMethod.name}`)
     return result
-  } as any as T as any as T
+  }
 }
 
 export async function auth<T extends (...args: Parameters<T>) => any>(
@@ -82,7 +82,7 @@ export async function auth<T extends (...args: Parameters<T>) => any>(
     const result = await originalMethod.apply(this, args)
     console.log(`AUTH: Exiting ${originalMethod.name}`)
     return result
-  } as any as T
+  }
 }
 
 export async function validate<T extends (...args: Parameters<T>) => any>(
@@ -93,7 +93,7 @@ export async function validate<T extends (...args: Parameters<T>) => any>(
     const result = await originalMethod.apply(this, args)
     console.log(`VALIDATE: Exiting ${originalMethod.name}`)
     return result
-  } as any as T
+  }
 }
 
 export async function errorHandler<T extends (...args: Parameters<T>) => any>(
@@ -106,7 +106,7 @@ export async function errorHandler<T extends (...args: Parameters<T>) => any>(
       console.error(`ERROR: ${error.message}`)
       throw error
     }
-  } as any as T
+  }
 }
 
 export async function rateLimiter<T extends (...args: Parameters<T>) => any>(
@@ -115,5 +115,5 @@ export async function rateLimiter<T extends (...args: Parameters<T>) => any>(
   // Implement rate limiting logic here
   return async function (...args: Parameters<T>) {
     return await originalMethod.apply(this, args)
-  } as any as T
+  }
 }

@@ -51,7 +51,7 @@ model User {
     gender Gender? @relation(fields: [genderId], references: [id])
     genderId String?
     nationality String?
-    nationalID String?
+    nationalID String? @unique()
     residence String?
     address String?
     username String @unique()
