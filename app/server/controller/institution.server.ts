@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '../util/db.server'
+import { enhancedPrisma } from '../util/db.server'
 import { Prisma } from '@prisma/client'
 
 const addSubscribersDataSchema = z.array(
@@ -28,7 +28,10 @@ const addSubscribersDataSchema = z.array(
 
 type addSubscribersData = z.infer<typeof addSubscribersDataSchema>
 
-export async function _addSubscribers(data: addSubscribersData) {
+export async function _addSubscribers(
+  userId: string,
+  data: addSubscribersData
+) {
   const MAX_RETRIES = 5
   let retries = 0
 
@@ -36,7 +39,7 @@ export async function _addSubscribers(data: addSubscribersData) {
 
   while (true) {
     try {
-      return await prisma.$transaction(
+      return await enhancedPrisma(userId).$transaction(
         async (tx) => {
           // Code running in a transaction...
           const subscribers = await tx.subscriber.createMany({

@@ -4,13 +4,14 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Outlet, useLoaderData } from '@remix-run/react'
 // import { Form, Link, useLoaderData } from '@remix-run/react'
 import { ColorSchemeToggle } from '@components/ColorSchemeToggle/ColorSchemeToggle'
 import { NavBar } from '@components/NavBar/NavBar'
 import UIDirection from '@components/UIDirection/UIDirection'
 import { getSession } from '~/server/util/session.server'
 import { User } from '~/server/models/user.server'
+import { unGuardedPrisma } from '~/server/util/db.server'
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,13 +26,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log('session id', session.id)
   console.log('session data', session.data)
 
-  if (!session.has('userId')) {
-    // Redirect to the home page if they are already signed in.
-    console.log('session does not have userId')
-    return redirect('/login')
-  }
-
-  const user = User.getMany(request)
+  // if (!session.has('userId')) {
+  //   // Redirect to the home page if they are already signed in.
+  //   console.log('session does not have userId')
+  //   return redirect('/login')
+  // }
 
   return null
 }
@@ -39,11 +38,19 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Index() {
   // const data = useLoaderData()
   return (
-    <div className='flex justify-start content-end h-screen'>
-      <NavBar />
-      <div className='w-full justify-start '>
-        <ColorSchemeToggle />
-        <UIDirection />
+    <div className='flex justify-start h-screen overflow-clip pt-1'>
+      <div className='shrink'>
+        <NavBar />
+      </div>
+      <div className='flex-grow overflow-x-auto'>
+        <div className='flex flex-col justify-start self-center'>
+          <div className='flex flex-wrap justify-center self-center w-fit gap-7 px-2'>
+            <ColorSchemeToggle />
+            <UIDirection />
+          </div>
+          <div>Istefsar layout</div>
+          <Outlet />
+        </div>
       </div>
     </div>
   )

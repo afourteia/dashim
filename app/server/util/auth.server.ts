@@ -3,10 +3,10 @@ import { getSession } from './session.server'
 
 export async function getUserIdFromCookie(
   request: Request
-): Promise<UserType['id'] | undefined> {
+): Promise<UserType['id'] | undefined | null> {
   const session = await getSession(request.headers.get('Cookie'))
-  const userId = session.get('userId')
-  return userId
+  if (session.has('userId')) return session.get('userId')
+  return null
 }
 
 export async function getUserFromDb(

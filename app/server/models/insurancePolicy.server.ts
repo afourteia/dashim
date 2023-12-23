@@ -1,39 +1,39 @@
-import { prisma } from '~/server/util/db.server'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
 export type { InsurancePolicy as InsurancePolicyType } from '@prisma/client'
 
-async function getMany(params?: Prisma.InsurancePolicyFindManyArgs) {
-  return await prisma.insurancePolicy.findMany(params)
+async function getMany(userId: string, params?: Prisma.InsurancePolicyFindManyArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.findMany(params)
 }
 
-async function getOne(params: Prisma.InsurancePolicyFindUniqueArgs) {
-  return await prisma.insurancePolicy.findUnique(params)
+async function getOne(userId: string, params: Prisma.InsurancePolicyFindUniqueArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.findUnique(params)
 }
 
-async function createMany(params: Prisma.InsurancePolicyCreateManyArgs) {
-  return await prisma.insurancePolicy.createMany(params)
+async function createMany(userId: string, params: Prisma.InsurancePolicyCreateManyArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.createMany(params)
 }
 
-async function createOne(params: Prisma.InsurancePolicyCreateArgs) {
-  return await prisma.insurancePolicy.create(params)
+async function createOne(userId: string, params: Prisma.InsurancePolicyCreateArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.create(params)
 }
 
-async function updateMany(params: Prisma.InsurancePolicyUpdateManyArgs) {
-  return await prisma.insurancePolicy.updateMany(params)
+async function updateMany(userId: string, params: Prisma.InsurancePolicyUpdateManyArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.updateMany(params)
 }
 
-async function updateOne(params: Prisma.InsurancePolicyUpdateArgs) {
-  return await prisma.insurancePolicy.update(params)
+async function updateOne(userId: string, params: Prisma.InsurancePolicyUpdateArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.update(params)
 }
 
-async function deleteMany(params: Prisma.InsurancePolicyDeleteManyArgs) {
-  return await prisma.insurancePolicy.deleteMany(params)
+async function deleteMany(userId: string, params: Prisma.InsurancePolicyDeleteManyArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.deleteMany(params)
 }
 
-async function deleteOne(params: Prisma.InsurancePolicyDeleteArgs) {
-  return await prisma.insurancePolicy.delete(params)
+async function deleteOne(userId: string, params: Prisma.InsurancePolicyDeleteArgs) {
+  return await enhancedPrisma(userId).insurancePolicy.delete(params)
 }
 
 export const InsurancePolicy = {

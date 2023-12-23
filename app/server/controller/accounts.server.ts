@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { prisma, unGuardedPrisma } from '../util/db.server'
-import { type Prisma } from '@prisma/client'
+import { enhancedPrisma, unGuardedPrisma } from '../util/db.server'
+import type { Prisma } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 const createUserDataSchema = z.object({
@@ -43,7 +43,7 @@ export async function _createUser(data: createUserData) {
     passwordHash: hashedPassword,
     searchName,
   }
-  return await prisma.user.create({ data: ProcessedData })
+  return await enhancedPrisma().user.create({ data: ProcessedData })
 }
 
 const verifyLoginDataSchema = z.object({

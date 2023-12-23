@@ -24,7 +24,7 @@ TableNames.forEach((TableName) => {
   const tableName = TableName.charAt(0).toLowerCase() + TableName.slice(1)
   const output = template
     .replace(/User/g, TableName)
-    .replace(/user/g, tableName)
+    .replace(/user(?!Id)/g, tableName)
 
   fs.writeFileSync(
     path.join(outputDirectory, '\\', `${tableName}.server.ts`),

@@ -64,10 +64,17 @@ const unGuardedPrisma = singleton('prismaOG', () =>
   })
 )
 
-const prisma = singleton('prisma', () =>
-  enhance(unGuardedPrisma, {}, { logPrismaQuery: true })
-)
+unGuardedPrisma.$connect()
 
-prisma.$connect()
+function enhancedPrisma(userId?: string) {
+  if (!userId) {
+    return unGuardedPrisma
+  }
+  return enhance(
+    unGuardedPrisma,
+    { user: { id: userId } },
+    { logPrismaQuery: true }
+  )
+}
 
-export { prisma, unGuardedPrisma }
+export { unGuardedPrisma, enhancedPrisma }

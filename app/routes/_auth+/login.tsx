@@ -32,11 +32,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   // const data = { error: session.get('error') }
 
-  const user11 = await _verifyLogin({ email: 'dsf@fds.com', password: '1234' })
-  const user22 = await procedure.verifyLogin(request, {
-    email: 'dsf@fds.com',
-    password: '1234',
-  })
+  // const user11 = await _verifyLogin({ email: 'dsf@fds.com', password: '1234' })
 
   return null
 
@@ -75,7 +71,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Login() {
-  const { error } = useLoaderData<typeof loader>()
+  // const { error } = useLoaderData<typeof loader>()
+  const error = null
   const actionData = useActionData<typeof action>()
   // const isPending = useIsPendin()
   const [searchParams] = useSearchParams()

@@ -1,39 +1,39 @@
-import { prisma } from '~/server/util/db.server'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
 export type { SubscriberGroup as SubscriberGroupType } from '@prisma/client'
 
-async function getMany(params?: Prisma.SubscriberGroupFindManyArgs) {
-  return await prisma.subscriberGroup.findMany(params)
+async function getMany(userId: string, params?: Prisma.SubscriberGroupFindManyArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.findMany(params)
 }
 
-async function getOne(params: Prisma.SubscriberGroupFindUniqueArgs) {
-  return await prisma.subscriberGroup.findUnique(params)
+async function getOne(userId: string, params: Prisma.SubscriberGroupFindUniqueArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.findUnique(params)
 }
 
-async function createMany(params: Prisma.SubscriberGroupCreateManyArgs) {
-  return await prisma.subscriberGroup.createMany(params)
+async function createMany(userId: string, params: Prisma.SubscriberGroupCreateManyArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.createMany(params)
 }
 
-async function createOne(params: Prisma.SubscriberGroupCreateArgs) {
-  return await prisma.subscriberGroup.create(params)
+async function createOne(userId: string, params: Prisma.SubscriberGroupCreateArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.create(params)
 }
 
-async function updateMany(params: Prisma.SubscriberGroupUpdateManyArgs) {
-  return await prisma.subscriberGroup.updateMany(params)
+async function updateMany(userId: string, params: Prisma.SubscriberGroupUpdateManyArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.updateMany(params)
 }
 
-async function updateOne(params: Prisma.SubscriberGroupUpdateArgs) {
-  return await prisma.subscriberGroup.update(params)
+async function updateOne(userId: string, params: Prisma.SubscriberGroupUpdateArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.update(params)
 }
 
-async function deleteMany(params: Prisma.SubscriberGroupDeleteManyArgs) {
-  return await prisma.subscriberGroup.deleteMany(params)
+async function deleteMany(userId: string, params: Prisma.SubscriberGroupDeleteManyArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.deleteMany(params)
 }
 
-async function deleteOne(params: Prisma.SubscriberGroupDeleteArgs) {
-  return await prisma.subscriberGroup.delete(params)
+async function deleteOne(userId: string, params: Prisma.SubscriberGroupDeleteArgs) {
+  return await enhancedPrisma(userId).subscriberGroup.delete(params)
 }
 
 export const SubscriberGroup = {

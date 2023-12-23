@@ -1,39 +1,39 @@
-import { prisma } from '~/server/util/db.server'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
 export type { TenantType as TenantTypeType } from '@prisma/client'
 
-async function getMany(params?: Prisma.TenantTypeFindManyArgs) {
-  return await prisma.tenantType.findMany(params)
+async function getMany(userId: string, params?: Prisma.TenantTypeFindManyArgs) {
+  return await enhancedPrisma(userId).tenantType.findMany(params)
 }
 
-async function getOne(params: Prisma.TenantTypeFindUniqueArgs) {
-  return await prisma.tenantType.findUnique(params)
+async function getOne(userId: string, params: Prisma.TenantTypeFindUniqueArgs) {
+  return await enhancedPrisma(userId).tenantType.findUnique(params)
 }
 
-async function createMany(params: Prisma.TenantTypeCreateManyArgs) {
-  return await prisma.tenantType.createMany(params)
+async function createMany(userId: string, params: Prisma.TenantTypeCreateManyArgs) {
+  return await enhancedPrisma(userId).tenantType.createMany(params)
 }
 
-async function createOne(params: Prisma.TenantTypeCreateArgs) {
-  return await prisma.tenantType.create(params)
+async function createOne(userId: string, params: Prisma.TenantTypeCreateArgs) {
+  return await enhancedPrisma(userId).tenantType.create(params)
 }
 
-async function updateMany(params: Prisma.TenantTypeUpdateManyArgs) {
-  return await prisma.tenantType.updateMany(params)
+async function updateMany(userId: string, params: Prisma.TenantTypeUpdateManyArgs) {
+  return await enhancedPrisma(userId).tenantType.updateMany(params)
 }
 
-async function updateOne(params: Prisma.TenantTypeUpdateArgs) {
-  return await prisma.tenantType.update(params)
+async function updateOne(userId: string, params: Prisma.TenantTypeUpdateArgs) {
+  return await enhancedPrisma(userId).tenantType.update(params)
 }
 
-async function deleteMany(params: Prisma.TenantTypeDeleteManyArgs) {
-  return await prisma.tenantType.deleteMany(params)
+async function deleteMany(userId: string, params: Prisma.TenantTypeDeleteManyArgs) {
+  return await enhancedPrisma(userId).tenantType.deleteMany(params)
 }
 
-async function deleteOne(params: Prisma.TenantTypeDeleteArgs) {
-  return await prisma.tenantType.delete(params)
+async function deleteOne(userId: string, params: Prisma.TenantTypeDeleteArgs) {
+  return await enhancedPrisma(userId).tenantType.delete(params)
 }
 
 export const TenantType = {

@@ -1,3 +1,5 @@
+import { verify } from 'crypto'
+
 const stripJsonComments = require('strip-json-comments')
 const ts = require('typescript')
 const fs = require('fs')
@@ -47,7 +49,11 @@ for (const file of files) {
 
   for (const func of exportedFunctions) {
     const funcName = func.name?.getText().substring(1)
-    procedure += `  ${funcName}: middleware(${func.name?.getText()}),\n`
+    if (funcName == 'verifyLogin') {
+      procedure += `  ${funcName}: ${func.name?.getText()},\n`
+    } else {
+      procedure += `  ${funcName}: middleware(${func.name?.getText()}),\n`
+    }
   }
 }
 

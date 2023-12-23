@@ -43,6 +43,8 @@ const mockdata = [
   { icon: IconUser, label: 'Account' },
   { icon: IconFingerprint, label: 'Security' },
   { icon: IconSettings, label: 'Settings' },
+  { icon: IconSettings, label: 'Settings1' },
+  { icon: IconSettings, label: 'Settings2' },
 ]
 
 export function NavBar() {
@@ -58,9 +60,7 @@ export function NavBar() {
   ))
 
   return (
-    <nav
-      className={(classes.navbar, 'flex flex-col justify-start h-full pt-2')}
-    >
+    <nav className={(classes.navbar, 'flex flex-col justify-start h-full')}>
       <Center className='grow-0'>
         <img
           className='object-contain max-h-[30px] max-w-[30px]'
