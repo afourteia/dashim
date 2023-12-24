@@ -28,7 +28,7 @@ const createUserDataSchema = z.object({
 
 type createUserData = z.infer<typeof createUserDataSchema>
 
-export async function _createUser(data: createUserData) {
+export async function _createUser(userId: string, data: createUserData) {
   const validatedData = createUserDataSchema.parse(data)
 
   const hashedPassword = await bcrypt.hash(validatedData.password, 10)
@@ -43,7 +43,7 @@ export async function _createUser(data: createUserData) {
     passwordHash: hashedPassword,
     searchName,
   }
-  return await enhancedPrisma().user.create({ data: ProcessedData })
+  return await enhancedPrisma(userId).user.create({ data: ProcessedData })
 }
 
 const verifyLoginDataSchema = z.object({

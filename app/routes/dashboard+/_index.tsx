@@ -1,11 +1,12 @@
 import { type LoaderFunctionArgs, redirect, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { procedure } from '~/server/controller/_procedure.server'
 import { User } from '~/server/models/user.server'
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log('loader dashboard index')
 
-  const users = await User.getMany(request, {})
+  const users = await User.getMany(request)
   // const session = await getSession(request.headers.get('Cookie'))
 
   // console.log('session id', session.id)

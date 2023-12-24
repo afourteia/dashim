@@ -3,6 +3,7 @@ import {
   type ActionFunctionArgs,
   json,
   type LoaderFunctionArgs,
+  type MetaFunction,
 } from '@remix-run/node'
 import {
   Form,
@@ -61,9 +62,18 @@ export async function action({ request }: ActionFunctionArgs) {
   // const user = User.getOne(request, {where : {username : formData.get('email')}})
   const session = await getSession(request.headers.get('Cookie'))
 
-  if (user == null) {
+  if (!user) {
     console.log('invalid username or password')
     await session.flash('error', 'Invalid username or password')
+    return json(
+      { errors: { email: 'Invalid email or password', password: null } },
+      {
+        status: 400,
+        headers: {
+          'Set-Cookie': await commitSession(session),
+        },
+      }
+    )
     return redirect('/dashboard/login', {
       headers: {
         'Set-Cookie': await commitSession(session),
@@ -78,6 +88,8 @@ export async function action({ request }: ActionFunctionArgs) {
     },
   })
 }
+
+export const meta: MetaFunction = () => [{ title: 'Login' }]
 
 export default function Login() {
   const { error } = useLoaderData<typeof loader>()
