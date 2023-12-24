@@ -21,18 +21,12 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  console.log('main layout loader')
-
-  // if (!session.has('userId')) {
-  //   // Redirect to the home page if they are already signed in.
-  //   console.log('session does not have userId')
-  //   return redirect('/login')
-  // }
+  console.log('loader dashboard layout')
 
   return null
 }
 
-export default function Index() {
+export default function DashboardLayout() {
   // const data = useLoaderData()
   return (
     <div className='flex justify-start h-screen overflow-clip pt-1'>
@@ -41,11 +35,11 @@ export default function Index() {
       </div>
       <div className='flex-grow overflow-x-auto'>
         <div className='flex flex-col justify-start self-center'>
-          <div className='flex flex-wrap justify-center self-center w-fit gap-7 px-2'>
+          <div className='flex flex-wrap align-middle items-center justify-center self-center w-fit gap-7 px-2'>
             <ColorSchemeToggle />
             <UIDirection />
           </div>
-          <div>main layout</div>
+          <div>Placeholder main layout</div>
           <Outlet />
         </div>
       </div>

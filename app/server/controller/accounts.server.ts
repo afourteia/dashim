@@ -47,7 +47,7 @@ export async function _createUser(data: createUserData) {
 }
 
 const verifyLoginDataSchema = z.object({
-  email: z.string().email(),
+  username: z.string(),
   password: z.string(),
 })
 type verifyLoginData = z.infer<typeof verifyLoginDataSchema>
@@ -56,7 +56,7 @@ export async function _verifyLogin(data: verifyLoginData) {
   const validatedData = verifyLoginDataSchema.parse(data)
   const user = await unGuardedPrisma.user.findUnique({
     where: {
-      email: validatedData.email,
+      username: validatedData.username,
     },
     select: {
       id: true,

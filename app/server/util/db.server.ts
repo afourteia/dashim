@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { enhance } from '@zenstackhq/runtime'
 import { singleton } from '~/server/util/singleton.server'
 import { init, isCuid } from '@paralleldrive/cuid2'
+import { warn } from 'console'
 
 // The init function returns a custom createId function with the specified
 // configuration. All configuration properties are optional.
@@ -19,7 +20,7 @@ const createId = init({
 // Hard-code a unique key, so we can look up the client when this module gets re-imported
 const unGuardedPrisma = singleton('prismaOG', () =>
   new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+    // log: ['query', 'info', 'warn', 'error'],
     errorFormat: 'pretty',
   }).$extends({
     // model: {
@@ -68,12 +69,17 @@ unGuardedPrisma.$connect()
 
 function enhancedPrisma(userId?: string) {
   if (!userId) {
-    return unGuardedPrisma
+    console.log(warn('userId provided to enhancedPrisma is null'))
+    return enhance(
+      unGuardedPrisma,
+      {}
+      // { logPrismaQuery: true }
+    )
   }
   return enhance(
     unGuardedPrisma,
-    { user: { id: userId } },
-    { logPrismaQuery: true }
+    { user: { id: userId } }
+    // { logPrismaQuery: true }
   )
 }
 

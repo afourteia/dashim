@@ -1,5 +1,6 @@
 import { User, type UserType } from '@server/models/user.server'
 import { getSession } from './session.server'
+import { unGuardedPrisma } from './db.server'
 
 export async function getUserIdFromCookie(
   request: Request
@@ -15,11 +16,14 @@ export async function getUserFromDb(
   const userId = await getUserIdFromCookie(request)
   if (!userId) return null
 
-  const user = await User.getOne(
-    request,
-    { where: { id: userId } },
-    { bypassMiddleware: true }
-  )
+  // can't get this to work due to cyclic dependency
+  // const user = await User.getOne(
+  //   request,
+  //   { where: { id: userId } },
+  //   { bypassMiddleware: true }
+  // )
+
+  const user = await unGuardedPrisma.user.findUnique({ where: { id: userId } })
   return user
 }
 

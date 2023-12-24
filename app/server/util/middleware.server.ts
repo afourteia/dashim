@@ -7,6 +7,7 @@ Order of calls are
 4. originalFunction
 */
 
+import { redirect } from '@remix-run/node'
 import { getUserFromDb } from '@server/util/auth.server'
 
 export type MiddlewareContext = {
@@ -33,14 +34,17 @@ export function middleware<T extends (...args: any[]) => any>(
     console.log('context is: ', context)
     if (context.bypassMiddleware) {
       console.log('bypassMiddleware is true')
-      return await originalMethod(args)
+      return await originalMethod(null, args)
     } else {
       console.log('bypassMiddleware is false')
-      const userId = await getUserFromDb(request)
-      if (!userId) return null
+      const user = await getUserFromDb(request)
+      if (!user) {
+        console.log('user is null')
+        throw redirect('/dashboard/login')
+      }
 
       // Assuming the userId is the first argument of originalMethod
-      return await originalMethod(userId, args)
+      return await originalMethod(user.id, args)
     }
   }
 }
