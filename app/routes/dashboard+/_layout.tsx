@@ -15,8 +15,8 @@ import { unGuardedPrisma } from '~/server/util/db.server'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
+    { title: 'Dashboard' },
+    { name: 'description', content: 'Welcome to Dashim Dashboard!' },
   ]
 }
 
@@ -39,7 +39,7 @@ export default function DashboardLayout() {
             <ColorSchemeToggle />
             <UIDirection />
           </div>
-          <div>Placeholder main layout</div>
+          <div>dashboard layout</div>
           <Outlet />
         </div>
       </div>
