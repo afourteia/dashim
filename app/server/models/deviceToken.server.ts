@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const DeviceToken = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.DeviceTokenFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.findMany(params)
-  }),
+export type { DeviceToken as DeviceTokenType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.DeviceTokenFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.DeviceTokenCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.DeviceTokenCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.DeviceTokenUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.DeviceTokenUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.DeviceTokenDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.DeviceTokenDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.deviceToken.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.DeviceTokenFindManyArgs) {
+  return await enhancedPrisma(userId).deviceToken.findMany(params)
 }
 
-export default DeviceToken
+async function getOne(userId: string, params: Prisma.DeviceTokenFindUniqueArgs) {
+  return await enhancedPrisma(userId).deviceToken.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.DeviceTokenCreateManyArgs) {
+  return await enhancedPrisma(userId).deviceToken.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.DeviceTokenCreateArgs) {
+  return await enhancedPrisma(userId).deviceToken.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.DeviceTokenUpdateManyArgs) {
+  return await enhancedPrisma(userId).deviceToken.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.DeviceTokenUpdateArgs) {
+  return await enhancedPrisma(userId).deviceToken.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.DeviceTokenDeleteManyArgs) {
+  return await enhancedPrisma(userId).deviceToken.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.DeviceTokenDeleteArgs) {
+  return await enhancedPrisma(userId).deviceToken.delete(params)
+}
+
+export const DeviceToken = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

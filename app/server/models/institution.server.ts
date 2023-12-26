@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Institution = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.InstitutionFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.findMany(params)
-  }),
+export type { Institution as InstitutionType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.InstitutionFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.InstitutionCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.InstitutionCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.InstitutionUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.InstitutionUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.InstitutionDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.InstitutionDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.institution.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.InstitutionFindManyArgs) {
+  return await enhancedPrisma(userId).institution.findMany(params)
 }
 
-export default Institution
+async function getOne(userId: string, params: Prisma.InstitutionFindUniqueArgs) {
+  return await enhancedPrisma(userId).institution.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.InstitutionCreateManyArgs) {
+  return await enhancedPrisma(userId).institution.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.InstitutionCreateArgs) {
+  return await enhancedPrisma(userId).institution.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.InstitutionUpdateManyArgs) {
+  return await enhancedPrisma(userId).institution.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.InstitutionUpdateArgs) {
+  return await enhancedPrisma(userId).institution.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.InstitutionDeleteManyArgs) {
+  return await enhancedPrisma(userId).institution.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.InstitutionDeleteArgs) {
+  return await enhancedPrisma(userId).institution.delete(params)
+}
+
+export const Institution = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

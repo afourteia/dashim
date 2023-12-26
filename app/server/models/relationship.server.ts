@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Relationship = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.RelationshipFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.findMany(params)
-  }),
+export type { Relationship as RelationshipType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.RelationshipFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.RelationshipCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.RelationshipCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.RelationshipUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.RelationshipUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.RelationshipDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.RelationshipDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.relationship.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.RelationshipFindManyArgs) {
+  return await enhancedPrisma(userId).relationship.findMany(params)
 }
 
-export default Relationship
+async function getOne(userId: string, params: Prisma.RelationshipFindUniqueArgs) {
+  return await enhancedPrisma(userId).relationship.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.RelationshipCreateManyArgs) {
+  return await enhancedPrisma(userId).relationship.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.RelationshipCreateArgs) {
+  return await enhancedPrisma(userId).relationship.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.RelationshipUpdateManyArgs) {
+  return await enhancedPrisma(userId).relationship.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.RelationshipUpdateArgs) {
+  return await enhancedPrisma(userId).relationship.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.RelationshipDeleteManyArgs) {
+  return await enhancedPrisma(userId).relationship.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.RelationshipDeleteArgs) {
+  return await enhancedPrisma(userId).relationship.delete(params)
+}
+
+export const Relationship = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

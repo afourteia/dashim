@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Voice = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.VoiceFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.findMany(params)
-  }),
+export type { Voice as VoiceType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.VoiceFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.VoiceCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.VoiceCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.VoiceUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.VoiceUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.VoiceDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.VoiceDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.voice.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.VoiceFindManyArgs) {
+  return await enhancedPrisma(userId).voice.findMany(params)
 }
 
-export default Voice
+async function getOne(userId: string, params: Prisma.VoiceFindUniqueArgs) {
+  return await enhancedPrisma(userId).voice.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.VoiceCreateManyArgs) {
+  return await enhancedPrisma(userId).voice.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.VoiceCreateArgs) {
+  return await enhancedPrisma(userId).voice.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.VoiceUpdateManyArgs) {
+  return await enhancedPrisma(userId).voice.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.VoiceUpdateArgs) {
+  return await enhancedPrisma(userId).voice.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.VoiceDeleteManyArgs) {
+  return await enhancedPrisma(userId).voice.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.VoiceDeleteArgs) {
+  return await enhancedPrisma(userId).voice.delete(params)
+}
+
+export const Voice = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

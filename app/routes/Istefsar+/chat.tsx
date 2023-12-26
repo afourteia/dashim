@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
-import { globalEmitter } from '~/server/emitter.server.ts'
+import { globalEmitter } from '~/server/util/emitter.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   console.log('calling emitter')

@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Gender = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.GenderFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.findMany(params)
-  }),
+export type { Gender as GenderType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.GenderFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.GenderCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.GenderCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.GenderUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.GenderUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.GenderDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.GenderDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.gender.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.GenderFindManyArgs) {
+  return await enhancedPrisma(userId).gender.findMany(params)
 }
 
-export default Gender
+async function getOne(userId: string, params: Prisma.GenderFindUniqueArgs) {
+  return await enhancedPrisma(userId).gender.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.GenderCreateManyArgs) {
+  return await enhancedPrisma(userId).gender.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.GenderCreateArgs) {
+  return await enhancedPrisma(userId).gender.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.GenderUpdateManyArgs) {
+  return await enhancedPrisma(userId).gender.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.GenderUpdateArgs) {
+  return await enhancedPrisma(userId).gender.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.GenderDeleteManyArgs) {
+  return await enhancedPrisma(userId).gender.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.GenderDeleteArgs) {
+  return await enhancedPrisma(userId).gender.delete(params)
+}
+
+export const Gender = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

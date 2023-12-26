@@ -1,5 +1,3 @@
-import { createId } from '@paralleldrive/cuid2'
-
 /*
 const myFunction = HOF1(HOF2(HOF3(originalFunction)));
 Order of calls are
@@ -9,101 +7,64 @@ Order of calls are
 4. originalFunction
 */
 
-export function HOF(OG: (...args: any[]) => any, defaultParamHOF: number = 10) {
-  return function (paramHOF: number = defaultParamHOF, ...args: any[]) {
-    console.log(`HOF parameter: ${paramHOF}`)
-    // HOF can interpret or modify the arguments here
-    const modifiedArgs = args.map((arg) => arg + paramHOF)
-    return OG(...modifiedArgs)
-  }
+import { redirect } from '@remix-run/node'
+import { getUserFromDb } from '@server/util/auth.server'
+
+export type MiddlewareContext = {
+  bypassMiddleware?: boolean
 }
 
 export function middleware<T extends (...args: any[]) => any>(
-  originalMethod: T
-): (context?: {
-  bypassMiddleware?: boolean
-}) => (...args: Parameters<T>) => ReturnType<T> {
-  return function (context = { bypassMiddleware: true }) {
-    return function (...args: Parameters<T>): ReturnType<T> {
-      const { bypassMiddleware = true } = context
-      if (bypassMiddleware) {
-        return originalMethod(...args)
+  originalMethod: T,
+  defaultContext: MiddlewareContext = {
+    bypassMiddleware: false,
+  }
+) {
+  return async function (
+    request: Request,
+    args: Parameters<T>[1] = {},
+    _defaultContext: MiddlewareContext = {
+      bypassMiddleware: false,
+    }
+  ): Promise<ReturnType<T> | null> {
+    console.log('request', request)
+    console.log(`Middleware: Entering ${originalMethod.name}`)
+    console.log('originalMethod name', originalMethod.name)
+    const context = { ...defaultContext, ..._defaultContext }
+    console.log('context is: ', context)
+    if (context.bypassMiddleware) {
+      console.log('bypassMiddleware is true')
+      return await originalMethod(null, args)
+    } else {
+      console.log('bypassMiddleware is false')
+      const user = await getUserFromDb(request)
+      if (!user) {
+        console.log('user is null')
+        throw redirect('/dashboard/login')
       }
-      // Apply middleware logic here
-      return originalMethod(...args)
+
+      // Assuming the userId is the first argument of originalMethod
+      return await originalMethod(user.id, args)
     }
   }
-  return log(addCUID2(originalMethod))
 }
 
-export function addCUID2<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  return async function (...args: Parameters<T>) {
-    console.log(`CUID2: Entering ${originalMethod.name}`)
-    // Check if data argument exists and if it has an id property
-    const data = (args as any[]).find((arg) => typeof arg === 'object')
-    if (data && !data.id) {
-      console.log('CUID2: Adding cuid2 to data')
-      data.id = createId() // Generate a cuid2 if id doesn't exist
-    }
-    const result = await originalMethod.apply(this, args)
-    console.log(`CUID2: Exiting ${originalMethod.name}`)
-    return result
-  } as any as T
+export async function log() {
+  console.log('log')
+  return null
 }
 
-export function log<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  return async function (...args: Parameters<T>) {
-    console.log(`LOG: Entering ${originalMethod.name}`)
-    const result = await originalMethod(...args)
-    console.log(`LOG: Exiting ${originalMethod.name}`)
-    return result
-  } as any as T as any as T
+export async function validate() {
+  console.log('validate')
+  return null
 }
 
-export function auth<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  return async function (...args: Parameters<T>) {
-    console.log(`AUTH: Entering ${originalMethod.name}`)
-    const result = await originalMethod.apply(this, args)
-    console.log(`AUTH: Exiting ${originalMethod.name}`)
-    return result
-  } as any as T
+export async function errorHandler() {
+  console.log('errorHandler')
+  return null
 }
 
-export function validate<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  return async function (...args: Parameters<T>) {
-    console.log(`VALIDATE: Entering ${originalMethod.name}`)
-    const result = await originalMethod.apply(this, args)
-    console.log(`VALIDATE: Exiting ${originalMethod.name}`)
-    return result
-  } as any as T
-}
-
-export function errorHandler<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  return async function (...args: Parameters<T>) {
-    try {
-      return await originalMethod.apply(this, args)
-    } catch (error) {
-      console.error(`ERROR: ${error.message}`)
-      throw error
-    }
-  } as any as T
-}
-
-export function rateLimiter<T extends (...args: Parameters<T>) => any>(
-  originalMethod: T
-): T {
-  // Implement rate limiting logic here
-  return async function (...args: Parameters<T>) {
-    return await originalMethod.apply(this, args)
-  } as any as T
+export async function rateLimiter(request: Request) {
+  console.log('rateLimiter')
+  return null
 }

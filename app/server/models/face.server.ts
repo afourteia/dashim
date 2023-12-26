@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Face = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.FaceFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.findMany(params)
-  }),
+export type { Face as FaceType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.FaceFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.FaceCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.FaceCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.FaceUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.FaceUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.FaceDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.FaceDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.face.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.FaceFindManyArgs) {
+  return await enhancedPrisma(userId).face.findMany(params)
 }
 
-export default Face
+async function getOne(userId: string, params: Prisma.FaceFindUniqueArgs) {
+  return await enhancedPrisma(userId).face.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.FaceCreateManyArgs) {
+  return await enhancedPrisma(userId).face.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.FaceCreateArgs) {
+  return await enhancedPrisma(userId).face.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.FaceUpdateManyArgs) {
+  return await enhancedPrisma(userId).face.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.FaceUpdateArgs) {
+  return await enhancedPrisma(userId).face.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.FaceDeleteManyArgs) {
+  return await enhancedPrisma(userId).face.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.FaceDeleteArgs) {
+  return await enhancedPrisma(userId).face.delete(params)
+}
+
+export const Face = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

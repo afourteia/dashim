@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const TenantMembers = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.TenantMembersFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.findMany(params)
-  }),
+export type { TenantMembers as TenantMembersType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.TenantMembersFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.TenantMembersCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.TenantMembersCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.TenantMembersUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.TenantMembersUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.TenantMembersDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.TenantMembersDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.tenantMembers.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.TenantMembersFindManyArgs) {
+  return await enhancedPrisma(userId).tenantMembers.findMany(params)
 }
 
-export default TenantMembers
+async function getOne(userId: string, params: Prisma.TenantMembersFindUniqueArgs) {
+  return await enhancedPrisma(userId).tenantMembers.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.TenantMembersCreateManyArgs) {
+  return await enhancedPrisma(userId).tenantMembers.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.TenantMembersCreateArgs) {
+  return await enhancedPrisma(userId).tenantMembers.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.TenantMembersUpdateManyArgs) {
+  return await enhancedPrisma(userId).tenantMembers.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.TenantMembersUpdateArgs) {
+  return await enhancedPrisma(userId).tenantMembers.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.TenantMembersDeleteManyArgs) {
+  return await enhancedPrisma(userId).tenantMembers.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.TenantMembersDeleteArgs) {
+  return await enhancedPrisma(userId).tenantMembers.delete(params)
+}
+
+export const TenantMembers = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

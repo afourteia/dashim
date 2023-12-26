@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const BenefitPackage = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.BenefitPackageFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.findMany(params)
-  }),
+export type { BenefitPackage as BenefitPackageType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.BenefitPackageFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.BenefitPackageCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.BenefitPackageCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.BenefitPackageUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.BenefitPackageUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.BenefitPackageDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.BenefitPackageDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.benefitPackage.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.BenefitPackageFindManyArgs) {
+  return await enhancedPrisma(userId).benefitPackage.findMany(params)
 }
 
-export default BenefitPackage
+async function getOne(userId: string, params: Prisma.BenefitPackageFindUniqueArgs) {
+  return await enhancedPrisma(userId).benefitPackage.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.BenefitPackageCreateManyArgs) {
+  return await enhancedPrisma(userId).benefitPackage.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.BenefitPackageCreateArgs) {
+  return await enhancedPrisma(userId).benefitPackage.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.BenefitPackageUpdateManyArgs) {
+  return await enhancedPrisma(userId).benefitPackage.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.BenefitPackageUpdateArgs) {
+  return await enhancedPrisma(userId).benefitPackage.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.BenefitPackageDeleteManyArgs) {
+  return await enhancedPrisma(userId).benefitPackage.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.BenefitPackageDeleteArgs) {
+  return await enhancedPrisma(userId).benefitPackage.delete(params)
+}
+
+export const BenefitPackage = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

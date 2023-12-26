@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Fingerprint = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.FingerprintFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.findMany(params)
-  }),
+export type { Fingerprint as FingerprintType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.FingerprintFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.FingerprintCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.FingerprintCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.FingerprintUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.FingerprintUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.FingerprintDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.FingerprintDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.fingerprint.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.FingerprintFindManyArgs) {
+  return await enhancedPrisma(userId).fingerprint.findMany(params)
 }
 
-export default Fingerprint
+async function getOne(userId: string, params: Prisma.FingerprintFindUniqueArgs) {
+  return await enhancedPrisma(userId).fingerprint.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.FingerprintCreateManyArgs) {
+  return await enhancedPrisma(userId).fingerprint.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.FingerprintCreateArgs) {
+  return await enhancedPrisma(userId).fingerprint.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.FingerprintUpdateManyArgs) {
+  return await enhancedPrisma(userId).fingerprint.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.FingerprintUpdateArgs) {
+  return await enhancedPrisma(userId).fingerprint.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.FingerprintDeleteManyArgs) {
+  return await enhancedPrisma(userId).fingerprint.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.FingerprintDeleteArgs) {
+  return await enhancedPrisma(userId).fingerprint.delete(params)
+}
+
+export const Fingerprint = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

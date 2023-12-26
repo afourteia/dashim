@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const Subscriber = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.SubscriberFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.findMany(params)
-  }),
+export type { Subscriber as SubscriberType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.SubscriberFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.SubscriberCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.SubscriberCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.SubscriberUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.SubscriberUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.SubscriberDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.SubscriberDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.subscriber.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.SubscriberFindManyArgs) {
+  return await enhancedPrisma(userId).subscriber.findMany(params)
 }
 
-export default Subscriber
+async function getOne(userId: string, params: Prisma.SubscriberFindUniqueArgs) {
+  return await enhancedPrisma(userId).subscriber.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.SubscriberCreateManyArgs) {
+  return await enhancedPrisma(userId).subscriber.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.SubscriberCreateArgs) {
+  return await enhancedPrisma(userId).subscriber.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.SubscriberUpdateManyArgs) {
+  return await enhancedPrisma(userId).subscriber.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.SubscriberUpdateArgs) {
+  return await enhancedPrisma(userId).subscriber.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.SubscriberDeleteManyArgs) {
+  return await enhancedPrisma(userId).subscriber.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.SubscriberDeleteArgs) {
+  return await enhancedPrisma(userId).subscriber.delete(params)
+}
+
+export const Subscriber = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

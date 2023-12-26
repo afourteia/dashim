@@ -5,6 +5,7 @@
     "mantine",
     "overscan",
     "tabler",
+    "paralleldrive",
     "tailwindcss",
     "tanstack",
     "TRPC",
@@ -17,5 +18,7 @@
     "**/*.sass",
     "**/*.less",
     "node_modules/@mantine/core/esm/index.css"
-  ]
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "prompt",
+  "tailwindCSS.experimental.classRegex": ["className=\"([^\"\\n]*)\""]
 }

@@ -1,63 +1,48 @@
-import { prisma } from '@server/db.server.ts'
+import { enhancedPrisma } from '@server/util/db.server'
 import type { Prisma } from '@prisma/client'
 import { middleware } from '@server/util/middleware.server'
 
-const MedicalCenterServiceTemplate = {
-  getMany: middleware(async function getMany(
-    params?: Prisma.MedicalCenterServiceTemplateFindManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.findMany(params)
-  }),
+export type { MedicalCenterServiceTemplate as MedicalCenterServiceTemplateType } from '@prisma/client'
 
-  getOne: middleware(async function getOne(
-    params: Prisma.MedicalCenterServiceTemplateFindUniqueArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.findUnique(params)
-  }),
-
-  createMany: middleware(async function createMany(
-    params: Prisma.MedicalCenterServiceTemplateCreateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.createMany(params)
-  }),
-
-  createOne: middleware(async function createOne(
-    params: Prisma.MedicalCenterServiceTemplateCreateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.create(params)
-  }),
-
-  updateMany: middleware(async function updateMany(
-    params: Prisma.MedicalCenterServiceTemplateUpdateManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.updateMany(params)
-  }),
-
-  updateOne: middleware(async function updateOne(
-    params: Prisma.MedicalCenterServiceTemplateUpdateArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.update(params)
-  }),
-
-  deleteMany: middleware(async function deleteMany(
-    params: Prisma.MedicalCenterServiceTemplateDeleteManyArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.deleteMany(params)
-  }),
-
-  deleteOne: middleware(async function deleteOne(
-    params: Prisma.MedicalCenterServiceTemplateDeleteArgs,
-    context?: { bypassMiddleware: boolean }
-  ) {
-    return await prisma.medicalCenterServiceTemplate.delete(params)
-  }),
+async function getMany(userId: string, params?: Prisma.MedicalCenterServiceTemplateFindManyArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.findMany(params)
 }
 
-export default MedicalCenterServiceTemplate
+async function getOne(userId: string, params: Prisma.MedicalCenterServiceTemplateFindUniqueArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.findUnique(params)
+}
+
+async function createMany(userId: string, params: Prisma.MedicalCenterServiceTemplateCreateManyArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.createMany(params)
+}
+
+async function createOne(userId: string, params: Prisma.MedicalCenterServiceTemplateCreateArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.create(params)
+}
+
+async function updateMany(userId: string, params: Prisma.MedicalCenterServiceTemplateUpdateManyArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.updateMany(params)
+}
+
+async function updateOne(userId: string, params: Prisma.MedicalCenterServiceTemplateUpdateArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.update(params)
+}
+
+async function deleteMany(userId: string, params: Prisma.MedicalCenterServiceTemplateDeleteManyArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.deleteMany(params)
+}
+
+async function deleteOne(userId: string, params: Prisma.MedicalCenterServiceTemplateDeleteArgs) {
+  return await enhancedPrisma(userId).medicalCenterServiceTemplate.delete(params)
+}
+
+export const MedicalCenterServiceTemplate = {
+  getMany: middleware(getMany),
+  getOne: middleware(getOne),
+  createMany: middleware(createMany),
+  createOne: middleware(createOne),
+  updateMany: middleware(updateMany),
+  updateOne: middleware(updateOne),
+  deleteMany: middleware(deleteMany),
+  deleteOne: middleware(deleteOne),
+}

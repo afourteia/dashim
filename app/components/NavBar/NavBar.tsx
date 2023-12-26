@@ -2,17 +2,20 @@ import { useState } from "react";
 import { Center, Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
 import {
   IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
+  IconBuildingHospital,
   IconCalendarStats,
-  IconUser,
   IconSettings,
   IconLogout,
   IconSwitchHorizontal,
-} from "@tabler/icons-react";
-import logo from "@assets/logo.png";
-import classes from "./NavBar.module.css";
+  IconNurse,
+  IconBuilding,
+  IconMedicineSyrup,
+  IconFileInvoice,
+  IconUsers,
+} from '@tabler/icons-react'
+import logo from '@assets/logo.png'
+import classes from './NavBar.module.css'
+import { NavLink } from '@remix-run/react'
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
@@ -36,32 +39,36 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: "Home" },
-  { icon: IconGauge, label: "Dashboard" },
-  { icon: IconDeviceDesktopAnalytics, label: "Analytics" },
-  { icon: IconCalendarStats, label: "Releases" },
-  { icon: IconUser, label: "Account" },
-  { icon: IconFingerprint, label: "Security" },
-  { icon: IconSettings, label: "Settings" },
-];
+  { icon: IconHome2, label: 'Home', route: '/' },
+  { icon: IconCalendarStats, label: 'Appointments' },
+  { icon: IconBuildingHospital, label: 'Medical Centers' },
+  { icon: IconNurse, label: 'Doctors' },
+  { icon: IconBuilding, label: 'Institutions' },
+  { icon: IconMedicineSyrup, label: 'Medicine' },
+  { icon: IconFileInvoice, label: 'Claims' },
+  { icon: IconUsers, label: 'users' },
+  { icon: IconSettings, label: 'Settings' },
+]
 
 export function NavBar() {
-  const [active, setActive] = useState(2);
-
+  const [active, setActive] = useState(2)
   const links = mockdata.map((link, index) => (
-    <NavbarLink
-      {...link}
+    <NavLink
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
-    />
-  ));
+      className={({ isActive }) => `border-b ${isActive ? 'bg-white' : ''}`}
+      to={link.route || link.label.toLowerCase().replace(/\s+/g, '')}
+    >
+      <NavbarLink
+        {...link}
+        active={index === active}
+        onClick={() => setActive(index)}
+      />
+    </NavLink>
+  ))
 
   return (
-    <nav
-      className={(classes.navbar, "flex flex-col justify-start h-full pt-2")}
-    >
-      <Center className="grow-0">
+    <nav className={(classes.navbar, 'flex flex-col justify-start h-full')}>
+      <Center className='grow-0'>
         <img
           className="object-contain max-h-[30px] max-w-[30px]"
           src={logo}
