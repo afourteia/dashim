@@ -56,6 +56,7 @@ function DataGridProvider<TData, TValue>({
     data,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    manualSorting: true,
     onSortingChange: setSorting,
     getFilteredRowModel: getFilteredRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
