@@ -3,8 +3,11 @@
     "clsx",
     "Istefsar",
     "mantine",
+    "overscan",
+    "tabler",
     "paralleldrive",
     "tailwindcss",
+    "tanstack",
     "TRPC",
     "zenstack",
     "zenstackhq"

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core'
+import { useState } from "react";
+import { Center, Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
 import {
   IconHome2,
   IconBuildingHospital,
@@ -18,15 +18,15 @@ import classes from './NavBar.module.css'
 import { NavLink } from '@remix-run/react'
 
 interface NavbarLinkProps {
-  icon: typeof IconHome2
-  label: string
-  active?: boolean
-  onClick?(): void
+  icon: typeof IconHome2;
+  label: string;
+  active?: boolean;
+  onClick?(): void;
 }
 
 function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   return (
-    <Tooltip label={label} position='right' transitionProps={{ duration: 0 }}>
+    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
         onClick={onClick}
         className={classes.link}
@@ -35,7 +35,7 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
         <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
       </UnstyledButton>
     </Tooltip>
-  )
+  );
 }
 
 const mockdata = [
@@ -70,22 +70,22 @@ export function NavBar() {
     <nav className={(classes.navbar, 'flex flex-col justify-start h-full')}>
       <Center className='grow-0'>
         <img
-          className='object-contain max-h-[30px] max-w-[30px]'
+          className="object-contain max-h-[30px] max-w-[30px]"
           src={logo}
-          alt='Logo'
+          alt="Logo"
         />
       </Center>
-      <div className='flex flex-col justify-between grow'>
+      <div className="flex flex-col justify-between grow">
         <div className={classes.navbarMain}>
-          <Stack justify='center' gap={0}>
+          <Stack justify="center" gap={0}>
             {links}
           </Stack>
         </div>
-        <Stack justify='center' className='self-end' gap={0}>
-          <NavbarLink icon={IconSwitchHorizontal} label='Change account' />
-          <NavbarLink icon={IconLogout} label='Logout' />
+        <Stack justify="center" className="self-end" gap={0}>
+          <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
+          <NavbarLink icon={IconLogout} label="Logout" />
         </Stack>
       </div>
     </nav>
-  )
+  );
 }
