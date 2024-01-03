@@ -27,7 +27,7 @@
       "@components/*": ["./app/components/*"],
       "@server/*": ["./app/server/*"],
       "@routes/*": ["./app/routes/*"],
-      "@prisma/*": ["./prisma/*"],
+      "@prisma/*": ["backend/prisma/*"],
       "@mantine/core": ["./node_modules/@mantine/core/lib/index.d.ts"],
       "@assets/*": ["./app/assets/*"]
     },
