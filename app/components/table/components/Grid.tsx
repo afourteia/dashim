@@ -15,6 +15,7 @@ import type {
   Column,
   Header,
   Table,
+  SortingState,
 } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -22,7 +23,7 @@ import { useDataGridContext } from "../context/DataGridContext";
 import classes from "./Grid.module.css";
 
 type GridProps = {
-  sorting?: (columnId: string | number, dir: "asc" | "des") => void;
+  sorting?: (sortStatus: SortingState) => void;
   fetchNextPage?: () => void;
   isFetching?: boolean;
   isLoading?: boolean;
@@ -112,9 +113,12 @@ function Grid<TData>({
         style={{ opacity: isDragging ? 0.5 : 1 }}
         className={clsx(
           classes.thead,
-          " group h-10 rtl:last:rounded-l-md ltr:last:rounded-r-md rtl:first:rounded-r-md ltr:first:rounded-l-md"
+          "group h-10 rtl:last:rounded-l-md ltr:last:rounded-r-md rtl:first:rounded-r-md ltr:first:rounded-l-md",
+          `${header.column.getCanSort() ? "cursor-pointer select-none" : ""}`
         )}
-        onClick={() => header.column.getSortingFn()}
+        {...{
+          onClick: header.column.getToggleSortingHandler(),
+        }}
       >
         <div ref={previewRef} className="flex flex-row gap-1.5">
           <button ref={dragRef}>
@@ -126,6 +130,10 @@ function Grid<TData>({
             />
           </button>
           {flexRender(header.column.columnDef.header, header.getContext())}
+          {{
+            asc: " 🔼",
+            desc: " 🔽",
+          }[header.column.getIsSorted() as string] ?? null}
         </div>
         <div
           className={`
