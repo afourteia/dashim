@@ -5,7 +5,7 @@ export const t = initTRPC.create()
 
 export const appRouter = t.router({
   // GET http://localhost:3000/trpc/greeting
-  greeting: t.procedure.query(() => 'hello tRPC v10!'),
+  greeting: t.procedure.query(() => 'hello from tRPC v10!'),
   // GET http://localhost:3000/trpc/getUser?input="test"
   getUser: t.procedure.input(z.string()).query((opts) => {
     opts.input // string
