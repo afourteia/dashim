@@ -5,23 +5,33 @@ import { ReactNode } from "react";
 
 const Sidebar = () => {
   return (
-    <nav className="flex flex-col gap-3 bg-secondary items-center h-full p-3 w-44  dark:bg-slate-600 drop-shadow-lg rounded-md">
-      <NavLink icon={<Home />} title="Home" link="/" />
-      <NavLink icon={<Settings />} title="Settings" link="/settings" />
+    <nav className="flex flex-col gap-3 bg-base-300 items-center h-full p-3 w-44 drop-shadow-lg rounded-md">
+      <SidebarElement icon={<Home />} title="Home" link="/" isActive />
+      <SidebarElement icon={<Settings />} title="Settings" link="/settings" />
       <ThemeSwitcher />
     </nav>
   );
 };
 
-type NavLinkProps = {
+type SidebarElementProps = {
   icon: ReactNode;
   title: string;
   link: string;
+  isActive?: boolean;
 };
 
-const NavLink = ({ icon, title, link }: NavLinkProps) => (
+const SidebarElement = ({
+  icon,
+  title,
+  link,
+  isActive = false,
+}: SidebarElementProps) => (
   <Link to={link} className="w-full">
-    <div className="flex flex-row bg-gray-300 h-12 w-full rounded-lg items-center font-bold justify-start p-3 gap-2">
+    <div
+      className={`flex ${
+        isActive ? "bg-primary" : "bg-transparent"
+      } h-12 w-full rounded-lg items-center font-bold justify-start p-3 gap-2 text-primary-content`}
+    >
       {icon}
       {title}
     </div>
@@ -34,9 +44,9 @@ const ThemeSwitcher = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="h-10 w-20 dark:bg-white bg-slate-600 rounded-full relative drop-shadow-lg"
+      className="h-10 w-20 bg-primary rounded-full relative drop-shadow-lg"
     >
-      <div className="absolute flex justify-center items-center drop-shadow-lg h-8 w-8 rounded-full dark:bg-slate-600 dark:text-white bg-white top-1 right-3 dark:left-3 transition-all">
+      <div className="absolute flex justify-center items-center drop-shadow-lg h-8 w-8 rounded-full bg-base-100 text-primary-content top-1 right-3 dark:left-3 transition-all">
         {isDarkMode ? (
           <Moon className="scale-100 transition-all" />
         ) : (

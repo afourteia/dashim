@@ -17,10 +17,11 @@ const useBaseThemeStore = create<ThemeState, [["zustand/persist", unknown]]>(
           const isDarkMode = !state.isDarkMode;
           // Apply the correct class based on the new theme state
           if (isDarkMode) {
+            document.querySelector("html")!.className = "";
             document.querySelector("html")?.classList.add("dark");
           } else {
-            const root = document.querySelector("html");
-            root?.className = "";
+            document.querySelector("html")!.className = "";
+            document.querySelector("html")?.classList.add("light");
           }
           return { isDarkMode };
         }),
@@ -35,9 +36,11 @@ const useBaseThemeStore = create<ThemeState, [["zustand/persist", unknown]]>(
       onRehydrateStorage: () => (state) => {
         if (state) {
           if (state.isDarkMode) {
+            document.querySelector("html")!.className = "";
             document.querySelector("html")?.classList.add("dark");
           } else {
-            document.querySelector("html")?.classList.remove("dark");
+            document.querySelector("html")!.className = "";
+            document.querySelector("html")?.classList.add("light");
           }
         }
       },
