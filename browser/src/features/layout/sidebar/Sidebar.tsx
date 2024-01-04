@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 const Sidebar = () => {
   return (
-    <nav className="flex flex-col gap-3 items-center h-full p-3 w-44 bg-gray-300 dark:bg-slate-600 drop-shadow-lg rounded-md">
+    <nav className="flex flex-col gap-3 bg-secondary items-center h-full p-3 w-44  dark:bg-slate-600 drop-shadow-lg rounded-md">
       <NavLink icon={<Home />} title="Home" link="/" />
       <NavLink icon={<Settings />} title="Settings" link="/settings" />
       <ThemeSwitcher />
