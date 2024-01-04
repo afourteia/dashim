@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "trpc-client-devtools-link": "^0.2.1-next",
     "@tanstack/react-query": "^5.17.1",
     "@tanstack/router-devtools": "^1.0.9"
   }
