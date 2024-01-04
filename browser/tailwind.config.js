@@ -44,24 +44,24 @@ module.exports = {
       light: {
         primary: "#104ee0",
         "primary-focus": "#4675e2",
-        "primary-content": "#ffffff",
+        "primary-content": "#1b1c22",
 
         secondary: "#a8901a",
         "secondary-focus": "#c6ad0c",
-        "secondary-content": "#ffffff",
+        "secondary-content": "#1b1c22",
 
         accent: "#37cdbe",
         "accent-focus": "#2ba69a",
-        "accent-content": "#ffffff",
+        "accent-content": "#1b1c22",
 
         neutral: "#3b424e",
         "neutral-focus": "#2a2e37",
-        "neutral-content": "#ffffff",
+        "neutral-content": "#1b1c22",
 
         "base-100": "#ffffff",
         "base-200": "#f9fafb",
         "base-300": "#ced3d9",
-        "base-content": "#1e2734",
+        "base-content": "#1b1c22",
 
         info: "#1f94f4",
         success: "#047c28",
@@ -69,21 +69,21 @@ module.exports = {
         error: "#ff5724",
       },
       dark: {
-        primary: "#435bd6",
-        "primary-focus": "#33459e",
-        "primary-content": "#1b1c22",
+        primary: "#6343d6",
+        "primary-focus": "#7e42ff",
+        "primary-content": "#ffffff",
 
         secondary: "#e0c124",
         "secondary-focus": "#af971d",
-        "secondary-content": "#1b1c22",
+        "secondary-content": "#ffffff",
 
         accent: "#ffffb3",
         "accent-focus": "#ffff80",
-        "accent-content": "#1b1c22",
+        "accent-content": "#ffffff",
 
         neutral: "#a5a3bd",
         "neutral-focus": "#b6b4cb",
-        "neutral-content": "#1b1c22",
+        "neutral-content": "#ffffff",
 
         "base-100": "#302f3d",
         "base-200": "#22212c",
