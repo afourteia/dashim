@@ -1,5 +1,5 @@
 {
-  "name": "dashim_backend",
+  "name": "dashim_server",
   "private": true,
   "sideEffects": false,
   "type": "module",

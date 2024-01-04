@@ -5,6 +5,7 @@
     "Istefsar",
     "lucide",
     "mantine",
+    "outdir",
     "overscan",
     "paralleldrive",
     "partialize",
@@ -12,6 +13,7 @@
     "tailwindcss",
     "tanstack",
     "TRPC",
+    "typecheck",
     "zenstack",
     "zenstackhq",
     "zustand"

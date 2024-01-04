@@ -14,7 +14,7 @@ const templatePath = path.join(__dirname, 'CRUDtemplate.ts')
 const template = fs.readFileSync(templatePath, 'utf-8')
 
 // The path to the output directory
-const outputDirectory = path.resolve(__dirname, '..', 'app', 'server', 'models')
+const outputDirectory: string = path.resolve(__dirname, '..', 'src', 'models')
 
 // For each word in the list, replace "User" and "user" in the template and write to a new file
 // if (!fs.existsSync(outputDirectory)) {
@@ -22,7 +22,7 @@ const outputDirectory = path.resolve(__dirname, '..', 'app', 'server', 'models')
 // }
 TableNames.forEach((TableName) => {
   const tableName = TableName.charAt(0).toLowerCase() + TableName.slice(1)
-  const output = template
+  const output: string = template
     .replace(/User/g, TableName)
     .replace(/user(?!Id)/g, tableName)
 

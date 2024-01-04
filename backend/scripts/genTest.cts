@@ -1,15 +1,13 @@
-import { verify } from 'crypto'
+import stripJsonComments from 'strip-json-comments'
+import * as ts from 'typescript'
+import fs from 'fs'
+import path from 'path'
 
-const stripJsonComments = require('strip-json-comments')
-const ts = require('typescript')
-const fs = require('fs')
-const path = require('path')
-
-const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 const scriptTarget = ts.ScriptTarget.ES2015
 
-const controllerDir = path.join(__dirname, 'app\\server\\controller')
+const controllerDir = path.join(__dirname, 'src', 'controller')
 console.log('controllerDir is: ', controllerDir)
 
 const files = fs

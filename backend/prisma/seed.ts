@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
-import User from '@server/models/user.server'
+import { User } from '@models/user.server'
 import { create } from 'domain'
 import { createId } from '@paralleldrive/cuid2'
 
