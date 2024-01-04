@@ -3,15 +3,18 @@
     "clsx",
     "dashim",
     "Istefsar",
+    "lucide",
     "mantine",
     "overscan",
     "paralleldrive",
+    "partialize",
     "tabler",
     "tailwindcss",
     "tanstack",
     "TRPC",
     "zenstack",
-    "zenstackhq"
+    "zenstackhq",
+    "zustand"
   ],
   "cssVariables.lookupFiles": [
     "**/*.css",
@@ -20,6 +23,6 @@
     "**/*.less",
     "node_modules/@mantine/core/esm/index.css"
   ],
-  "typescript.updateImportsOnFileMove.enabled": "prompt",
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "tailwindCSS.experimental.classRegex": ["className=\"([^\"\\n]*)\""]
 }
