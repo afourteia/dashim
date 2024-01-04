@@ -6,7 +6,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname.substring(1))
 
 const TableNames = Object.values(Prisma.ModelName)
 
-const templatePath = path.join(__dirname, 'CRUDtemplate.ts')
+const templatePath = path.join(__dirname, 'modelFileTemplate.ts')
 
 const template = fs.readFileSync(templatePath, 'utf-8')
 
