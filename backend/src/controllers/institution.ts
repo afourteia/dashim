@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { enhancedPrisma } from '../util/db.server'
+import { enhancedPrisma } from '@config/db'
 import { Prisma } from '@prisma/client'
 
 const addSubscribersDataSchema = z.array(

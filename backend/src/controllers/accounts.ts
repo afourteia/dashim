@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { enhancedPrisma, unGuardedPrisma } from '../util/db.server'
+import { enhancedPrisma, unGuardedPrisma } from '@config/db'
 import type { Prisma } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
