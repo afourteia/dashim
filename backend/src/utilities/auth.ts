@@ -1,6 +1,6 @@
 import { User, type UserType } from '@models/user.server'
-import { getSession } from './session.server'
-import { unGuardedPrisma } from '@config/db.server'
+import { getSession } from '@utilities/session'
+import { unGuardedPrisma } from '@config/db'
 
 export async function getUserIdFromCookie(
   request: Request
