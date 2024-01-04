@@ -1,5 +1,7 @@
-import { initTRPC } from '@trpc/server'
+import { TRPCError, initTRPC } from '@trpc/server'
+import type { CreateExpressContextOptions } from '@trpc/server/adapters/express'
 import { z } from 'zod'
+import cookie from 'cookie'
 
 import { userRouter } from './user'
 
