@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "clsx",
+    "Dalil",
     "dashim",
     "Istefsar",
     "lucide",
@@ -16,7 +17,8 @@
     "typecheck",
     "zenstack",
     "zenstackhq",
-    "zustand"
+    "zustand",
+    "العربية"
   ],
   "cssVariables.lookupFiles": [
     "**/*.css",
