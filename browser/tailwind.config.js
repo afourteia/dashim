@@ -44,7 +44,7 @@ module.exports = {
       light: {
         primary: "#104ee0",
         "primary-focus": "#4675e2",
-        "primary-content": "#1b1c22",
+        "primary-content": "#f3f0ff",
 
         secondary: "#a8901a",
         "secondary-focus": "#c6ad0c",
@@ -70,25 +70,25 @@ module.exports = {
       },
       dark: {
         primary: "#6343d6",
-        "primary-focus": "#7e42ff",
-        "primary-content": "#ffffff",
+        "primary-focus": "#8567c5",
+        "primary-content": "#f3f0ff",
 
         secondary: "#e0c124",
         "secondary-focus": "#af971d",
-        "secondary-content": "#ffffff",
+        "secondary-content": "#f3f0ff",
 
         accent: "#ffffb3",
         "accent-focus": "#ffff80",
-        "accent-content": "#ffffff",
+        "accent-content": "#f3f0ff",
 
         neutral: "#a5a3bd",
         "neutral-focus": "#b6b4cb",
-        "neutral-content": "#ffffff",
+        "neutral-content": "#1b1c22",
 
         "base-100": "#302f3d",
         "base-200": "#22212c",
         "base-300": "#1b1c22",
-        "base-content": "#d5ccff",
+        "base-content": "#f3f0ff",
 
         info: "#1c92f2",
         success: "#009485",

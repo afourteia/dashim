@@ -24,4 +24,4 @@ const useBaseLocaleStore = create<LocaleState, [["zustand/persist", unknown]]>(
   )
 );
 
-export const useLocale = createSelectors(useBaseLocaleStore);
+export const useLocaleStore = createSelectors(useBaseLocaleStore);
