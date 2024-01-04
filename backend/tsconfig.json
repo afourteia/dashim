@@ -1,8 +1,9 @@
 {
-  "include": ["src", "prisma"],
+  "include": ["src", "prisma", "scripts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["esnext"],
+    "typeRoots": ["node_modules/@types", "src/types"],
     "types": ["node"],
     "isolatedModules": true,
     "esModuleInterop": true,

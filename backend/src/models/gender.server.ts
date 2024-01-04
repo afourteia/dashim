@@ -1,6 +1,6 @@
-import { enhancedPrisma } from '@server/util/db.server'
+import { enhancedPrisma } from '@config/db'
 import type { Prisma } from '@prisma/client'
-import { middleware } from '@server/util/middleware.server'
+import { middleware } from '@utilities/middleware'
 
 export type { Gender as GenderType } from '@prisma/client'
 
