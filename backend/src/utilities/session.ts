@@ -1,5 +1,19 @@
-// app/sessions.ts
-import { createCookieSessionStorage } from '@remix-run/node' // or cloudflare/deno
+let createCookieSessionStorage
+
+try {
+  createCookieSessionStorage =
+    require('@remix-run/node').createCookieSessionStorage
+} catch (error) {
+  console.error('Failed to load createCookieSessionStorage:', error)
+
+  // Placeholder function
+  createCookieSessionStorage = () => {
+    console.warn(
+      'createCookieSessionStorage is not available. Using placeholder function.'
+    )
+    // Return a default value or do nothing
+  }
+}
 
 const secret = process.env.COOKIE_SECRET || 's3cr3t'
 if (secret === 's3cr3t') {

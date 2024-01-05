@@ -1,18 +1,13 @@
-import { TRPCError, initTRPC } from '@trpc/server'
-import type { CreateExpressContextOptions } from '@trpc/server/adapters/express'
 import { z } from 'zod'
-import cookie from 'cookie'
-
+import { router, publicProcedure } from './_trpc'
 import { userRouter } from './user'
-
-const t = initTRPC.create()
-
-export const router = t.router
-export const publicProcedure = t.procedure
 
 export const appRouter = router({
   // GET http://localhost:3000/trpc/greeting
-  greeting: publicProcedure.query(() => 'hello from tRPC v10!'),
+  greeting: publicProcedure.query((opts) => {
+    console.log('request context', opts.ctx.req)
+    return 'hello from tRPC v10!'
+  }),
   user: userRouter, // put procedures under "user" namespace
 })
 

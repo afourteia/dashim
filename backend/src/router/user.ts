@@ -1,12 +1,12 @@
-import { router, publicProcedure } from './_router'
+import { router, publicProcedure } from './_trpc'
 import { z } from 'zod'
 import { User, type UserType } from '@models/user'
 export const userRouter = router({
   // GET http://localhost:3000/trpc/user.getOne?input="test"
   getMany: publicProcedure.input(z.string()).query((opts) => {
     opts.input // string
-    req
-    const users = User.getMany(req, {})
+    opts.ctx.req
+    const users = User.getMany(opts.ctx.req, {})
     return { response: 'user getOne' }
   }),
   getOne: publicProcedure.input(z.string()).query((opts) => {

@@ -1,11 +1,12 @@
-import { User, type UserType } from '@models/user.server'
-import { getSession } from '@utilities/session'
+import { User, type UserType } from '@models/user'
+// import { getSession } from '@utilities/session'
 import { unGuardedPrisma } from '@config/db'
 
 export async function getUserIdFromCookie(
   request: Request
 ): Promise<UserType['id'] | undefined | null> {
-  const session = await getSession(request.headers.get('Cookie'))
+  // const session = await getSession(request.headers.get('Cookie'))
+  const session = null
   if (session.has('userId')) return session.get('userId')
   return null
 }

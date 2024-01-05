@@ -1,5 +1,5 @@
 {
-  "include": ["src", "prisma", "scripts"],
+  "include": ["index.ts", "src", "prisma", "scripts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["esnext"],
