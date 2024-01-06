@@ -48,7 +48,7 @@ const Home = () => {
     },
   ];
 
-  const useQuery = trpc.user.getMany.useQuery("ajnvjfgj");
+  const useQuery = trpc.user.getMany.useQuery("A");
 
   console.log(useQuery);
   return (
