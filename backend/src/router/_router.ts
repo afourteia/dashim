@@ -5,7 +5,6 @@ import { userRouter } from './user'
 export const appRouter = router({
   // GET http://localhost:3000/trpc/greeting
   greeting: publicProcedure.query((opts) => {
-    console.log('request context', opts.ctx.req)
     return 'hello from tRPC v10!'
   }),
   user: userRouter, // put procedures under "user" namespace

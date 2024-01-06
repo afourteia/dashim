@@ -10,7 +10,17 @@ const PORT = 3000
 const createContext = ({
   req,
   res,
-}: trpcExpress.CreateExpressContextOptions) => ({}) // no context
+}: trpcExpress.CreateExpressContextOptions): {
+  req: typeof req
+  res: typeof res
+  test: string
+  context: string
+} => ({
+  req,
+  res,
+  test: 'some test value', // replace with actual value
+  context: 'some context value', // replace with actual value
+})
 type Context = Awaited<ReturnType<typeof createContext>>
 
 // enable cors

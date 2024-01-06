@@ -6,6 +6,7 @@ Order of calls are
 3. HOF1
 4. originalFunction
 */
+import type { Request as ExpressRequest } from 'express'
 import { getUserFromDb } from '@utilities/auth'
 
 export type MiddlewareContext = {
@@ -19,7 +20,7 @@ export function middleware<T extends (...args: any[]) => any>(
   }
 ) {
   return async function (
-    request: Request,
+    request: Request | ExpressRequest,
     args: Parameters<T>[1] = {},
     _defaultContext: MiddlewareContext = {
       bypassMiddleware: false,
@@ -35,14 +36,15 @@ export function middleware<T extends (...args: any[]) => any>(
       return await originalMethod(null, args)
     } else {
       console.log('bypassMiddleware is false')
-      const user = await getUserFromDb(request)
-      if (!user) {
-        console.log('user is null')
-        // throw redirect('/dashboard/login') //TODO: fix redirect
+      try {
+        const user = await getUserFromDb(request)
+        return await originalMethod(user.id, args)
+      } catch (error) {
+        console.error('**** Error at middleware ****')
+        throw error
       }
 
       // Assuming the userId is the first argument of originalMethod
-      return await originalMethod(user.id, args)
     }
   }
 }

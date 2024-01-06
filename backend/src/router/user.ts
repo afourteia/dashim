@@ -1,13 +1,23 @@
 import { router, publicProcedure } from './_trpc'
 import { z } from 'zod'
 import { User, type UserType } from '@models/user'
+import { TRPCError } from '@trpc/server'
+import ServerError from '~/utilities/error'
+
 export const userRouter = router({
   // GET http://localhost:3000/trpc/user.getOne?input="test"
-  getMany: publicProcedure.input(z.string()).query((opts) => {
+  getMany: publicProcedure.input(z.string()).query(async (opts) => {
     opts.input // string
-    opts.ctx.req
-    const users = User.getMany(opts.ctx.req, {})
-    return { response: 'user getOne' }
+    try {
+      const users = await User.getMany(opts.ctx.req, {})
+      return users
+    } catch (error) {
+      if (error instanceof ServerError) {
+        throw new TRPCError({ code: error.code, message: error.message })
+      } else {
+        throw error
+      }
+    }
   }),
   getOne: publicProcedure.input(z.string()).query((opts) => {
     opts.input // string
