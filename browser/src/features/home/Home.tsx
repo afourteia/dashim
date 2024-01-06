@@ -50,7 +50,7 @@ const Home = () => {
 
   const useQuery = trpc.user.getMany.useQuery("A");
 
-  console.log(useQuery);
+  console.log("users", useQuery);
   return (
     <div>
       <Grid columns={columns} data={users} totalFetched={2} totalRows={2} />
