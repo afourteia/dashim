@@ -2,18 +2,15 @@ import AppLayout from "@/features/layout/AppLayout";
 import Login from "@/features/auth/login";
 import { RootRoute, Route, Router } from "@tanstack/react-router";
 import Subscribers from "@/features/subscribers/subscribers";
+import Home from "@/features/home/Home";
 
-const rootRoute = new RootRoute({});
+const rootRoute = new RootRoute({
+  component: AppLayout,
+});
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: AppLayout,
-});
-
-const homeRoute = new Route({
-  getParentRoute: () => indexRoute,
-  path: "/home",
-  component: () => <p>Home</p>,
+  component: Home,
 });
 
 const subscribersRoute = new Route({
@@ -29,7 +26,7 @@ const login = new Route({
 });
 
 const routeTree = rootRoute.addChildren([
-  indexRoute.addChildren([homeRoute, subscribersRoute]),
+  indexRoute.addChildren([subscribersRoute]),
   login,
 ]);
 
