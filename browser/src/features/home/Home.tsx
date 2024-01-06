@@ -1,4 +1,5 @@
 import Grid from "@/components/Grid";
+import { trpc } from "@/utils/trpc";
 import { ColumnDef } from "@tanstack/react-table";
 
 const Home = () => {
@@ -47,6 +48,9 @@ const Home = () => {
     },
   ];
 
+  const useQuery = trpc.user.getMany.useQuery("ajnvjfgj");
+
+  console.log(useQuery);
   return (
     <div>
       <Grid columns={columns} data={users} totalFetched={2} totalRows={2} />
