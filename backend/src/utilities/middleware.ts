@@ -26,11 +26,11 @@ export function middleware<T extends (...args: any[]) => any>(
       bypassMiddleware: false,
     }
   ): Promise<ReturnType<T> | null> {
-    console.log('request', request)
+    // console.log('request', request)
     console.log(`Middleware: Entering ${originalMethod.name}`)
     console.log('originalMethod name', originalMethod.name)
     const context = { ...defaultContext, ..._defaultContext }
-    console.log('context is: ', context)
+    // console.log('context is: ', context)
     if (context.bypassMiddleware) {
       console.log('bypassMiddleware is true')
       return await originalMethod(null, args)

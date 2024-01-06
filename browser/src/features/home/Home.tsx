@@ -1,61 +1,61 @@
-import Grid from "@/components/Grid";
-import { trpc } from "@/utils/trpc";
-import { ColumnDef } from "@tanstack/react-table";
+import Grid from '@/components/Grid'
+import { trpc } from '@/utils/trpc'
+import { ColumnDef } from '@tanstack/react-table'
 
 const Home = () => {
   type User = {
-    id: number;
-    name: string;
-    age: number;
-    username: string;
-  };
+    id: number
+    name: string
+    age: number
+    username: string
+  }
 
   const columns: ColumnDef<User>[] = [
     {
-      id: "id",
-      accessorKey: "id",
+      id: 'id',
+      accessorKey: 'id',
       header: () => <p>ID</p>,
     },
     {
-      id: "name",
-      accessorKey: "name",
+      id: 'name',
+      accessorKey: 'name',
       header: () => <p>Name</p>,
     },
     {
-      id: "username",
-      accessorKey: "username",
+      id: 'username',
+      accessorKey: 'username',
       header: () => <p>Username</p>,
     },
     {
-      id: "age",
-      accessorKey: "age",
+      id: 'age',
+      accessorKey: 'age',
       header: () => <p>Age</p>,
     },
-  ];
+  ]
 
   const users: User[] = [
     {
       id: 1,
-      name: "Mohammad Jabah",
+      name: 'Mohammad Jabah',
       age: 22,
-      username: "Jabah",
+      username: 'Jabah',
     },
     {
       id: 2,
-      name: "Ali",
+      name: 'Ali',
       age: 22,
-      username: "Ali",
+      username: 'Ali',
     },
-  ];
+  ]
 
-  const useQuery = trpc.user.getMany.useQuery("ajnvjfgj");
+  const useQuery = trpc.user.getMany.useQuery('ajnvjfgj')
 
-  console.log(useQuery);
+  console.log('users', useQuery)
   return (
     <div>
       <Grid columns={columns} data={users} totalFetched={2} totalRows={2} />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
