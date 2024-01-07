@@ -48,7 +48,15 @@ const Home = () => {
     },
   ];
 
-  const useQuery = trpc.user.getMany.useQuery("A");
+  const useQuery = trpc.user.getMany.useQuery("dfs");
+
+  const greeting = trpc.greeting.useQuery();
+
+  const mutation = trpc.user.getOne.useQuery("fsd");
+
+  console.log(mutation.data?.response);
+
+  console.log(greeting.data);
 
   console.log("users", useQuery.data);
   return (

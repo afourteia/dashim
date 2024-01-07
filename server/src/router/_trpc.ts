@@ -24,7 +24,8 @@ export async function createContext({
     context,
   }
 }
-export type Context = Awaited<ReturnType<typeof createContext>>
+// export type Context = Awaited<ReturnType<typeof createContext>>
+export type Context = trpc.inferAsyncReturnType<typeof createContext>
 
 // const t = trpc.initTRPC.create()
 const t = trpc.initTRPC.context<Context>().create()
