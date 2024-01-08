@@ -1,6 +1,7 @@
 import 'base'
 import 'verification'
 import 'policy'
+import 'patientsServices'
 
 
 model Institution extends Base, ActivationStatus {
@@ -37,6 +38,8 @@ model Subscriber extends Base, ActivationStatus {
     institution Institution @relation(fields: [institutionId], references: [id])
     institutionId String
 
+    employerId String? @unique
+
     insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
     insurancePolicyId String
 
@@ -67,15 +70,18 @@ model SubscriberGroup extends Base, HumanProfile, ActivationStatus {
 
     fingerprint Fingerprint []
     idCard IDCard[]
-    face Face[]
-    voice Voice[]
+    faceBiometrics FaceBiometric[]
+    voice VoiceBiometric[]
 
     @@index([subscriberId, id])
     @@unique([subscriberId, id])
+
+    entryRecords EntryRecord[]
 }
 
 
 model Relationship extends Base, LangLocale{
+    name String @unique
     subscriberGroup SubscriberGroup[]
 }
 

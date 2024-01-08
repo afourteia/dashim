@@ -1,0 +1,68 @@
+import 'base'
+import 'medicalCenter';
+
+model TimeWindow extends Base, ActivationStatus{
+
+  medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references:[id])
+  medicalCenterId String @unique
+  time Int @default(24)
+}
+
+model EntryRecord extends Base, ActivationStatus{
+  subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+  subscriberGroupId String
+  
+  fingerprintBiometric Fingerprint? @relation(fields: [fingerprintId], references: [id])
+  fingerprintId String
+
+  idCard IDCard? @relation(fields: [idCardId], references: [id])
+  idCardId String
+
+  faceBiometric FaceBiometric? @relation(fields: [faceBiometricId], references: [id])
+  faceBiometricId String
+  
+  voiceBiometric VoiceBiometric? @relation(fields: [voiceBiometricId], references: [id])
+  voiceBiometricId String
+
+  patientServices PatientService[]
+  patientExamination PatientExamination[]
+}
+
+model PatientService extends Base, ActivationStatus{
+  entryRecord EntryRecord @relation(fields: [entryRecordId], references: [id])
+  entryRecordId String
+
+  Note String?
+
+  isWorkInjury Boolean @default(false)
+
+  cash Int
+
+  reviewStatus ReviewStatus @relation(fields: [reviewStatusId], references: [id])
+  reviewStatusId String
+
+  patientExamination PatientExamination @relation(fields: [patientExaminationId], references: [id])
+  patientExaminationId String
+}
+
+model PatientExamination extends Base, ActivationStatus{
+  entryRecord EntryRecord @relation(fields: [entryRecordId], references: [id])
+  entryRecordId String
+
+  Note String?
+
+  isWorkInjury Boolean @default(false)
+
+  cash Int
+
+  reviewStatus ReviewStatus @relation(fields: [reviewStatusId], references: [id])
+  reviewStatusId String
+
+  patientServices PatientService[]
+}
+
+model ReviewStatus extends Base {
+  name String @unique
+  patientServices PatientService[]
+  PatientExamination PatientExamination[]
+}

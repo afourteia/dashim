@@ -23,12 +23,14 @@ model MedicalCenter extends Base, ActivationStatus{
     managingTenantId String @unique
 
     services MedicalCenterService[]
+
+    timeWindow TimeWindow?
     
 }
 
 model MedicalCenterServiceTemplate extends Base, ActivationStatus {
     name String
-    dalilCode String
+    dalilCode String @unique
     basePrice String
 
     services MedicalCenterService[]
@@ -36,18 +38,18 @@ model MedicalCenterServiceTemplate extends Base, ActivationStatus {
 
 model MedicalCenterService extends Base, ActivationStatus {
     name String
-    medicalCenterCode String
+    medicalCenterServiceCode String @unique
     basePrice String
 
     medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references: [id])
-    medicalCenterId String @unique
+    medicalCenterId String
 
-    @@index([medicalCenterId, medicalCenterCode])
-    @@unique([medicalCenterId, medicalCenterCode])
+    @@index([medicalCenterId, medicalCenterServiceCode])
+    @@unique([medicalCenterId, medicalCenterServiceCode])
 
 
     template MedicalCenterServiceTemplate @relation(fields: [templateId], references: [id])
     templateId String 
-    @@index([templateId,medicalCenterId,  medicalCenterCode])
-    @@unique([templateId,medicalCenterId,  medicalCenterCode])
+    @@index([templateId,medicalCenterId,  medicalCenterServiceCode])
+    @@unique([templateId,medicalCenterId,  medicalCenterServiceCode])
 }

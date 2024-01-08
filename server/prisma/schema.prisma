@@ -217,6 +217,7 @@ model Subscriber {
     deactivationReason String?
     institution Institution @relation(fields: [institutionId], references: [id])
     institutionId String
+    employerId String? @unique()
     insurancePolicy InsurancePolicy @relation(fields: [insurancePolicyId], references: [id])
     insurancePolicyId String
     subscriberGroup SubscriberGroup[]
@@ -258,8 +259,9 @@ model SubscriberGroup {
     isVoiceVerificationActive Boolean @default(false)
     fingerprint Fingerprint[]
     idCard IDCard[]
-    face Face[]
-    voice Voice[]
+    faceBiometrics FaceBiometric[]
+    voice VoiceBiometric[]
+    entryRecords EntryRecord[]
 
     @@index([subscriberId, id])
     @@unique([subscriberId, id])
@@ -274,6 +276,7 @@ model Relationship {
     isSoftDeleted Boolean @default(false)
     arabic String?
     english String?
+    name String @unique()
     subscriberGroup SubscriberGroup[]
 }
 
@@ -291,6 +294,7 @@ model Fingerprint {
     fingerprintHash String @unique()
     subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
     subscriberGroupId String
+    entryRecords EntryRecord[]
 
     @@index([subscriberGroupId, id])
     @@unique([subscriberGroupId, id])
@@ -310,13 +314,14 @@ model IDCard {
     cardHash String
     subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
     subscriberGroupId String
+    entryRecords EntryRecord[]
 
     @@index([subscriberGroupId, id])
     @@unique([subscriberGroupId, id])
 }
 
 /// @@allow('all', true && isPublished)
-model Face {
+model FaceBiometric {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
@@ -327,13 +332,14 @@ model Face {
     faceHash String
     subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
     subscriberGroupId String
+    entryRecords EntryRecord[]
 
     @@index([subscriberGroupId, id])
     @@unique([subscriberGroupId, id])
 }
 
 /// @@allow('all', true && isPublished)
-model Voice {
+model VoiceBiometric {
     id String @id()
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt()
@@ -344,6 +350,7 @@ model Voice {
     voiceHash String
     subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
     subscriberGroupId String
+    entryRecords EntryRecord[]
 
     @@index([subscriberGroupId, id])
     @@unique([subscriberGroupId, id])
@@ -393,6 +400,91 @@ model BenefitPackage {
 }
 
 /// @@allow('all', true && isPublished)
+model TimeWindow {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references: [id])
+    medicalCenterId String @unique()
+    time Int @default(24)
+}
+
+/// @@allow('all', true && isPublished)
+model EntryRecord {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    subscriberGroup SubscriberGroup @relation(fields: [subscriberGroupId], references: [id])
+    subscriberGroupId String
+    fingerprintBiometric Fingerprint? @relation(fields: [fingerprintId], references: [id])
+    fingerprintId String
+    idCard IDCard? @relation(fields: [idCardId], references: [id])
+    idCardId String
+    faceBiometric FaceBiometric? @relation(fields: [faceBiometricId], references: [id])
+    faceBiometricId String
+    voiceBiometric VoiceBiometric? @relation(fields: [voiceBiometricId], references: [id])
+    voiceBiometricId String
+    patientServices PatientService[]
+    patientExamination PatientExamination[]
+}
+
+/// @@allow('all', true && isPublished)
+model PatientService {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    entryRecord EntryRecord @relation(fields: [entryRecordId], references: [id])
+    entryRecordId String
+    Note String?
+    isWorkInjury Boolean @default(false)
+    cash Int
+    reviewStatus ReviewStatus @relation(fields: [reviewStatusId], references: [id])
+    reviewStatusId String
+}
+
+/// @@allow('all', true && isPublished)
+model PatientExamination {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
+    isActive Boolean @default(true)
+    deactivationReason String?
+    entryRecord EntryRecord @relation(fields: [entryRecordId], references: [id])
+    entryRecordId String
+    Note String?
+    isWorkInjury Boolean @default(false)
+    cash Int
+    reviewStatus ReviewStatus @relation(fields: [reviewStatusId], references: [id])
+    reviewStatusId String
+}
+
+/// @@allow('all', true && isPublished)
+model ReviewStatus {
+    id String @id()
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+    isPublished Boolean @default(true)
+    isSoftDeleted Boolean @default(false)
+    name String @unique()
+    patientServices PatientService[]
+    PatientExamination PatientExamination[]
+}
+
+/// @@allow('all', true && isPublished)
 model MedicalCenter {
     id String @id()
     createdAt DateTime @default(now())
@@ -423,6 +515,7 @@ model MedicalCenter {
     managingTenant Tenant @relation(fields: [managingTenantId], references: [id])
     managingTenantId String @unique()
     services MedicalCenterService[]
+    timeWindow TimeWindow?
 }
 
 /// @@allow('all', true && isPublished)
@@ -435,7 +528,7 @@ model MedicalCenterServiceTemplate {
     isActive Boolean @default(true)
     deactivationReason String?
     name String
-    dalilCode String
+    dalilCode String @unique()
     basePrice String
     services MedicalCenterService[]
 }
@@ -450,15 +543,15 @@ model MedicalCenterService {
     isActive Boolean @default(true)
     deactivationReason String?
     name String
-    medicalCenterCode String
+    medicalCenterServiceCode String @unique()
     basePrice String
     medicalCenter MedicalCenter @relation(fields: [medicalCenterId], references: [id])
-    medicalCenterId String @unique()
+    medicalCenterId String
     template MedicalCenterServiceTemplate @relation(fields: [templateId], references: [id])
     templateId String
 
-    @@index([medicalCenterId, medicalCenterCode])
-    @@unique([medicalCenterId, medicalCenterCode])
-    @@index([templateId, medicalCenterId, medicalCenterCode])
-    @@unique([templateId, medicalCenterId, medicalCenterCode])
+    @@index([medicalCenterId, medicalCenterServiceCode])
+    @@unique([medicalCenterId, medicalCenterServiceCode])
+    @@index([templateId, medicalCenterId, medicalCenterServiceCode])
+    @@unique([templateId, medicalCenterId, medicalCenterServiceCode])
 }
