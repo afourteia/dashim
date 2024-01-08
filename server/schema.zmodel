@@ -19,3 +19,16 @@ generator erd {
   theme = "forest"
   // output = "./ERD.svg"
 }
+
+generator zod {
+  provider = "prisma-zod-generator"
+}
+
+generator fakeData {
+    provider = "prisma-generator-fake-data"
+    output   = "./fakeData/functions.ts"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}

@@ -1,0 +1,511 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Gender {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  arabic String
+  english String
+  name String [unique, not null]
+  user User [not null]
+  subscriberGroup SubscriberGroup [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table User {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  firstName String [not null]
+  secondName String
+  thirdName String
+  fourthName String
+  lastName String [not null]
+  searchName String [not null]
+  birthDate DateTime [not null]
+  gender Gender
+  genderId String
+  nationality String
+  nationalID String [unique]
+  residence String
+  address String
+  username String [unique, not null]
+  email String [unique, not null, note: '@email']
+  isEmailVerificationActive Boolean [not null, default: false]
+  phone String
+  isPhoneVerified Boolean [not null, default: false]
+  passwordHash String [not null, note: '@omit']
+  deviceToken DeviceToken [not null]
+  avatar String
+  ownerOf Tenant [not null]
+  memberOf TenantMembers [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table TenantMembers {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  tenant Tenant [not null]
+  tenantId String [not null]
+  member User [not null]
+  memberId String [not null]
+
+  indexes {
+    (memberId, id) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Tenant {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [not null]
+  type TenantType [not null]
+  typeId String [not null]
+  description String
+  logo String
+  website String
+  phone String
+  email String
+  address String
+  city String
+  country String
+  assignedToInstitution Institution
+  assignedToMedicalCenter MedicalCenter
+  owner User [not null]
+  ownerId String [not null]
+  members TenantMembers [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table DeviceToken {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [not null]
+  deviceType DeviceType [not null]
+  deviceTypeId String [not null]
+  user User [not null]
+  userId String [not null]
+
+  indexes {
+    (userId, name) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table TenantType {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  arabic String
+  english String
+  name String [unique, not null]
+  tenant Tenant [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Role {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  arabic String
+  english String
+  name String [unique, not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table DeviceType {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  arabic String
+  english String
+  name String [unique, not null]
+  deviceToken DeviceToken [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Institution {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [not null]
+  code String [not null]
+  legacyCode String
+  description String
+  cityHQ String
+  address String
+  phone String[] [unique, not null]
+  email String[] [unique, not null]
+  website String [not null, note: '@url']
+  facebookLink String [not null, note: '@url']
+  googleMapsLink String [not null, note: '@url']
+  twitterLink String [not null, note: '@url']
+  instagramLink String [not null, note: '@url']
+  latitude Float
+  longitude Float
+  institutionCode String [unique, not null]
+  managingTenant Tenant [not null]
+  managingTenantId String [unique, not null]
+  policies InsurancePolicy [not null]
+  members Subscriber [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Subscriber {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  institution Institution [not null]
+  institutionId String [not null]
+  insurancePolicy InsurancePolicy [not null]
+  insurancePolicyId String [not null]
+  subscriberGroup SubscriberGroup [not null]
+
+  indexes {
+    (institutionId, id) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table SubscriberGroup {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  firstName String [not null]
+  secondName String
+  thirdName String
+  fourthName String
+  lastName String [not null]
+  searchName String [not null]
+  birthDate DateTime [not null]
+  gender Gender
+  genderId String
+  nationality String
+  nationalID String [unique]
+  residence String
+  address String
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  subscriber Subscriber [not null]
+  subscriberId String [not null]
+  legacyCode String
+  relationship Relationship [not null]
+  relationshipId String [not null]
+  isFingerprintVerificationActive Boolean [not null, default: false]
+  isIdCardVerificationActive Boolean [not null, default: false]
+  isFaceVerificationActive Boolean [not null, default: false]
+  isVoiceVerificationActive Boolean [not null, default: false]
+  fingerprint Fingerprint [not null]
+  idCard IDCard [not null]
+  face Face [not null]
+  voice Voice [not null]
+
+  indexes {
+    (subscriberId, id) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Relationship {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  arabic String
+  english String
+  subscriberGroup SubscriberGroup [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Fingerprint {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  fingerType FingerType [not null]
+  fingerTypeId String [not null]
+  fingerprintHash String [unique, not null]
+  subscriberGroup SubscriberGroup [not null]
+  subscriberGroupId String [not null]
+
+  indexes {
+    (subscriberGroupId, id) [unique]
+    (id, fingerTypeId) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table IDCard {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  cardHash String [not null]
+  subscriberGroup SubscriberGroup [not null]
+  subscriberGroupId String [not null]
+
+  indexes {
+    (subscriberGroupId, id) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Face {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  faceHash String [not null]
+  subscriberGroup SubscriberGroup [not null]
+  subscriberGroupId String [not null]
+
+  indexes {
+    (subscriberGroupId, id) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table Voice {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  voiceHash String [not null]
+  subscriberGroup SubscriberGroup [not null]
+  subscriberGroupId String [not null]
+
+  indexes {
+    (subscriberGroupId, id) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table FingerType {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  arabic String
+  english String
+  name String [unique, not null]
+  fingerType Fingerprint [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table InsurancePolicy {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [unique, not null]
+  institution Institution [not null]
+  institutionId String [not null]
+  subscribers Subscriber [not null]
+  beneftiPackage BenefitPackage
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table BenefitPackage {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [unique, not null]
+  insurancePolicy InsurancePolicy [not null]
+  insurancePolicyId String [unique, not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table MedicalCenter {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [not null]
+  code String [not null]
+  description String [not null]
+  cityHQ String [not null]
+  address String
+  phone String[] [unique, not null]
+  email String[] [unique, not null]
+  website String [not null, note: '@url']
+  facebookLink String [not null, note: '@url']
+  googleMapsLink String [not null, note: '@url']
+  twitterLink String [not null, note: '@url']
+  instagramLink String [not null, note: '@url']
+  latitude Float
+  longitude Float
+  managingTenant Tenant [not null]
+  managingTenantId String [unique, not null]
+  services MedicalCenterService [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table MedicalCenterServiceTemplate {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [not null]
+  dalilCode String [not null]
+  basePrice String [not null]
+  services MedicalCenterService [not null]
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Table MedicalCenterService {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  isPublished Boolean [not null, default: true]
+  isSoftDeleted Boolean [not null, default: false]
+  isActive Boolean [not null, default: true]
+  deactivationReason String
+  name String [not null]
+  medicalCenterCode String [not null]
+  basePrice String [not null]
+  medicalCenter MedicalCenter [not null]
+  medicalCenterId String [unique, not null]
+  template MedicalCenterServiceTemplate [not null]
+  templateId String [not null]
+
+  indexes {
+    (medicalCenterId, medicalCenterCode) [unique]
+    (templateId, medicalCenterId, medicalCenterCode) [unique]
+  }
+
+  Note: '@@allow(\'all\', true && isPublished)'
+}
+
+Ref: User.genderId > Gender.id
+
+Ref: TenantMembers.tenantId > Tenant.id
+
+Ref: TenantMembers.memberId > User.id
+
+Ref: Tenant.typeId > TenantType.id
+
+Ref: Tenant.ownerId > User.id
+
+Ref: DeviceToken.deviceTypeId > DeviceType.id
+
+Ref: DeviceToken.userId > User.id
+
+Ref: Institution.managingTenantId - Tenant.id
+
+Ref: Subscriber.institutionId > Institution.id
+
+Ref: Subscriber.insurancePolicyId > InsurancePolicy.id
+
+Ref: SubscriberGroup.genderId > Gender.id
+
+Ref: SubscriberGroup.subscriberId > Subscriber.id
+
+Ref: SubscriberGroup.relationshipId > Relationship.id
+
+Ref: Fingerprint.fingerTypeId > FingerType.id
+
+Ref: Fingerprint.subscriberGroupId > SubscriberGroup.id
+
+Ref: IDCard.subscriberGroupId > SubscriberGroup.id
+
+Ref: Face.subscriberGroupId > SubscriberGroup.id
+
+Ref: Voice.subscriberGroupId > SubscriberGroup.id
+
+Ref: InsurancePolicy.institutionId > Institution.id
+
+Ref: BenefitPackage.insurancePolicyId - InsurancePolicy.id
+
+Ref: MedicalCenter.managingTenantId - Tenant.id
+
+Ref: MedicalCenterService.medicalCenterId > MedicalCenter.id
+
+Ref: MedicalCenterService.templateId > MedicalCenterServiceTemplate.id
