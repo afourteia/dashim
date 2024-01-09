@@ -1,31 +1,55 @@
-import { Prisma, PrismaClient } from '@prisma/client'
-import { faker } from '@faker-js/faker'
-import { LocaleKeys } from '../../browser/src/lang/i18n-config'
+import fs from 'fs'
+import readline from 'readline'
+
+const dbmlFIlePath = '../prisma/dbml/schema.dbml'
+
+async function extractRefs(filePath: string) {
+  const fileStream = fs.createReadStream(filePath)
+
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity,
+  })
+
+  const refs: { [key: string]: any } = {}
+
+  for await (const line of rl) {
+    const match = line.match(/Ref: (\w+)\.(\w+) > (\w+)\.(\w+)/)
+    if (match) {
+      const sourceTable = match[1]
+      const sourceField = match[2]
+      const targetTable = match[3]
+
+      if (!refs[sourceTable]) {
+        refs[sourceTable] = {}
+      }
+
+      refs[sourceTable][sourceField] = targetTable
+    }
+  }
+
+  return refs
+}
+
+const tableRefs = await extractRefs(dbmlFIlePath)
+
+console.log('Extracted tableRefs:  ')
+console.log(tableRefs)
+
+const tableDep: { [key: string]: string[] } = {}
+
+for (const [table, relations] of Object.entries(tableRefs)) {
+  tableDep[table] = Object.values(relations)
+}
+console.log('Created tableDep:  ')
+console.log(tableDep)
+
+const visited: { [key: string]: boolean } = {}
+const stack: string[] = []
 
 interface Refs {
   [key: string]: string[]
 }
-
-const refs: Refs = {
-  User: ['Gender'],
-  TenantMembers: ['Tenant', 'User'],
-  Tenant: ['TenantType', 'User'],
-  DeviceToken: ['DeviceType', 'User'],
-  Institution: ['Tenant'],
-  Subscriber: ['Institution', 'InsurancePolicy'],
-  SubscriberGroup: ['Gender', 'Subscriber', 'Relationship'],
-  Fingerprint: ['FingerType', 'SubscriberGroup'],
-  IDCard: ['SubscriberGroup'],
-  Face: ['SubscriberGroup'],
-  Voice: ['SubscriberGroup'],
-  InsurancePolicy: ['Institution'],
-  BenefitPackage: ['InsurancePolicy'],
-  MedicalCenter: ['Tenant'],
-  MedicalCenterService: ['MedicalCenter', 'MedicalCenterServiceTemplate'],
-}
-
-const visited: { [key: string]: boolean } = {}
-const stack: string[] = []
 
 function topologicalSort(
   table: string,
@@ -45,21 +69,11 @@ function topologicalSort(
   stack.push(table) // Use push instead of unshift
 }
 
-Object.keys(refs).forEach((table: string) => {
+Object.keys(tableDep).forEach((table: string) => {
   if (!visited[table]) {
-    topologicalSort(table, visited, stack, refs)
+    topologicalSort(table, visited, stack, tableDep)
   }
 })
 
+console.log('stack:   ')
 console.log(stack) // This will print the stack array to the console
-// const prisma = new PrismaClient()
-
-// async function createUser() {
-//   const userData: Prisma.UserCreateInput = {
-//     firstName: faker.person.firstName(),
-//     email: faker.internet.email(),
-//     // Map other fields in the User model to appropriate faker.js functions...
-//   }
-
-//   const user = await prisma.user.create({ data: userData })
-//   return user
